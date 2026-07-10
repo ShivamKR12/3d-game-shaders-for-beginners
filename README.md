@@ -4,7 +4,7 @@
 
 # 3D Game Shaders For Beginners
 
-> **Note:** This is an updated version of the original [3D Game Shaders For Beginners](https://github.com/lettier/3d-game-shaders-for-beginners) by David Lettier. This version includes a complete Python port of the demonstration application, in addition to the original C++ version. Maintained by [ShivamKR12](https://github.com/ShivamKR12).
+> **Note:** This is an updated version of the original [3D Game Shaders For Beginners](https://github.com/lettier/3d-game-shaders-for-beginners) by David Lettier. This version includes a complete Python port of the demonstration application, in addition to the original C++ version. Maintained by [Shivam Kumar](https://github.com/ShivamKR12).
 
 Interested in adding
 textures,
@@ -75,4 +75,4 @@ No other portion of 3D Game Shaders For Beginners has been licensed for use.
 
 (C) 2019 David Lettier (lettier.com)
 <br>
-(C) 2024 Shivam Kumar (github.com/ShivamKR12)
+(C) 2026 Shivam Kumar (github.com/ShivamKR12)

@@ -1,10 +1,12 @@
+import time
 from numpy import pi as M_PI
 from numpy import cos, sin, radians
-from panda3d.core import PTA_LVecBase3f, LVecBase3f, LVecBase2f, LVecBase4f, LColor, LVecBase4, load_prc_file, SamplerState, LVecBase3, TexturePool, PandaNode, NodePath, LVector3f, LPoint3f, TransparencyAttrib, LMatrix4
+from panda3d.core import PTA_LVecBase3f, LVecBase3f, LVecBase2f, LVecBase4f, LColor, LVecBase4, load_prc_file, SamplerState, LVecBase3, TexturePool, PandaNode, NodePath, LVector3f, LPoint3f, TransparencyAttrib, LMatrix4, TextNode, FontPool, MouseButton
 from panda3d.physics import ParticleSystem, ForceNode, PhysicalNode, PointParticleFactory, SpriteParticleRenderer, BaseParticleRenderer, LinearVectorForce, ParticleSystemManager, PhysicsManager, PointEmitter, BaseParticleEmitter, LinearJitterForce, LinearCylinderVortexForce
-from panda3d.core import AmbientLight, DirectionalLight
+from panda3d.core import AmbientLight, DirectionalLight, Spotlight, PerspectiveLens
 from panda3d.core import Shader
-from panda3d.core import GraphicsOutput, FrameBufferProperties, WindowProperties, GraphicsPipe, OrthographicLens, Camera, CardMaker, BitMask32, Texture
+from panda3d.core import GraphicsOutput, FrameBufferProperties, WindowProperties, GraphicsPipe, OrthographicLens, Camera, CardMaker, BitMask32, Texture, AnimControlCollection, PartGroup
+from direct.actor.Actor import auto_bind
 from numpy.random import rand
 
 class FramebufferTextureArguments:
@@ -52,6 +54,14 @@ def calculateCameraPosition(radius, phi, theta, lookAt):
     z = radius * cos(radians(phi))                       + lookAt[2]
     return LVecBase3f(x, y, z)
 
+def calculateCameraLookAt(upDownAdjust, leftRightAdjust, phi, theta, lookAt):
+    lookAt.x += upDownAdjust * sin(radians(-theta - 90)) * cos(radians(phi))
+    lookAt.y += upDownAdjust * cos(radians(-theta - 90)) * cos(radians(phi))
+    lookAt.z -= -upDownAdjust * sin(radians(phi))
+    lookAt.x += leftRightAdjust * sin(radians(-theta))
+    lookAt.y += leftRightAdjust * cos(radians(-theta))
+    return lookAt
+
 def generateFramebufferTexture(framebufferTextureArguments):
     win            = framebufferTextureArguments.window
     rgbaBits       = framebufferTextureArguments.rgbaBits
@@ -66,6 +76,7 @@ def generateFramebufferTexture(framebufferTextureArguments):
 
     fbp = FrameBufferProperties()
     fbp.set_back_buffers(0)
+    fbp.set_depth_bits(1)
     fbp.set_rgba_bits(int(rgbaBits[0]), int(rgbaBits[1]), int(rgbaBits[2]), int(rgbaBits[3]))
     fbp.set_aux_rgba(aux_rgba)
     fbp.set_float_color(setFloatColor)
@@ -260,6 +271,23 @@ def setUpParticles(render, smokeTexture, particleSystemManager, physicsManager):
     smokeNP.set_bin("fixed", 0)
     return smokeNP
 
+def generateWindowLight(name, render, position, show):
+    windowLight = Spotlight(name)
+    windowLight.set_color(windowLightColor)
+    windowLight.set_exponent(5)
+    windowLight.set_attenuation(LVecBase3(1, 0.008, 0))
+    windowLight.set_max_distance(37)
+    windowLightLens = PerspectiveLens()
+    windowLightLens.set_near_far(0.5, 12)
+    windowLightLens.set_fov(140)
+    windowLight.set_lens(windowLightLens)
+    if show: windowLight.show_frustum()
+    windowLightNP = render.attach_new_node(windowLight)
+    windowLightNP.set_name(name)
+    windowLightNP.set_pos(position)
+    windowLightNP.set_hpr(180, 0, 0)
+    render.set_light(windowLightNP)
+
 def generateLights(render, showLights):
     ambientLight = AmbientLight("ambientLight")
     ambientLight.set_color(LVecBase4(0.388, 0.356, 0.447, 1))
@@ -302,6 +330,79 @@ def generateLights(render, showLights):
     moonlightNP.set_pos(0, -17.5, 0)
     moonlightPivotNP.set_hpr(135, 160, 0)
 
+    generateWindowLight("windowLight", render, LVecBase3(1.5, 2.49, 7.9), showLights)
+    generateWindowLight("windowLight1", render, LVecBase3(3.5, 2.49, 7.9), showLights)
+    generateWindowLight("windowLight2", render, LVecBase3(3.5, 1.49, 4.5), showLights)
+
+def mixColor(a, b, factor):
+    return a * (1 - factor) + b * factor
+
+def animateLights(render, shuttersAnimationCollection, delta, speed, closedShutters, middayDown, midnightDown):
+    sunlightPivotNP = render.find("**/sunlightPivot")
+    moonlightPivotNP = render.find("**/moonlightPivot")
+    sunlightNP = render.find("**/sunlight")
+    moonlightNP = render.find("**/moonlight")
+
+    sunlight = sunlightNP.node()
+    moonlight = moonlightNP.node()
+
+    p = sunlightPivotNP.get_p()
+    p += speed * delta
+    if p > 360: p = 0
+    if p < 0: p = 360
+
+    if middayDown:
+        p = 270
+    elif midnightDown:
+        p = 90
+
+    sunlightPivotNP.set_p(p)
+    moonlightPivotNP.set_p(p - 180)
+
+    mixFactor = 1.0 - (sin(radians(p)) / 2.0 + 0.5)
+
+    sunlightColor = mixColor(sunlightColor0, sunlightColor1, mixFactor)
+    moonlightColor = mixColor(moonlightColor1, moonlightColor0, mixFactor)
+    lightColor = mixColor(moonlightColor, sunlightColor, mixFactor)
+
+    dayTimeLightMagnitude = max(0.0, -1 * sin(radians(p)))
+    nightTimeLightMagnitude = max(0.0, sin(radians(p)))
+
+    sunlight.set_color(lightColor * dayTimeLightMagnitude)
+    moonlight.set_color(lightColor * nightTimeLightMagnitude)
+
+    if dayTimeLightMagnitude > 0.0:
+        sunlight.set_shadow_caster(True, SHADOW_SIZE, SHADOW_SIZE)
+        render.set_light(sunlightNP)
+    else:
+        sunlight.set_shadow_caster(False, 0, 0)
+        render.set_light_off(sunlightNP)
+
+    if nightTimeLightMagnitude > 0.0:
+        moonlight.set_shadow_caster(True, SHADOW_SIZE, SHADOW_SIZE)
+        render.set_light(moonlightNP)
+    else:
+        moonlight.set_shadow_caster(False, 0, 0)
+        render.set_light_off(moonlightNP)
+
+    def updateWindowLight(name):
+        windowLightNP = render.find(f"**/{name}")
+        windowLight = windowLightNP.node()
+        windowLightMagnitude = pow(nightTimeLightMagnitude, 0.4)
+        windowLight.set_color(windowLightColor * windowLightMagnitude)
+        if windowLightMagnitude <= 0.0:
+            render.set_light_off(windowLightNP)
+        else:
+            render.set_light(windowLightNP)
+
+    updateWindowLight("windowLight")
+    updateWindowLight("windowLight1")
+    updateWindowLight("windowLight2")
+
+    # This logic is tricky to get right without the animation state.
+    # Simplified for now.
+    return p, closedShutters
+
 def phy_task():
     global particleSystemManager
     global physicsManager
@@ -341,6 +442,12 @@ def setTextureToNearestAndClamp(texture):
     texture.set_wrap_v(SamplerState.WM_clamp)
     texture.set_wrap_w(SamplerState.WM_clamp)
 
+def toggleEnabledVec(vec):
+    t = 1 - vec.x
+    vec.x = t
+    vec.y = t
+    return vec
+
 cameraRotatePhiInitial    =   67.5095
 cameraRotateThetaInitial  =  231.721
 cameraRotateRadiusInitial = 1100.83
@@ -355,7 +462,7 @@ cameraRotateTheta         = cameraRotateThetaInitial
 cameraLookAt              = cameraLookAtInitial
 
 fogNearInitial = 2.0
-fogFarInitial  = 90.0
+fogFarInitial  = 9.0
 fogNear        = fogNearInitial
 fogFar         = fogFarInitial
 fogAdjust      = 0.1
@@ -420,19 +527,21 @@ rgba32 = LVecBase4(32, 32, 32, 32)
 
 load_prc_file("panda3d-prc-file.prc")
 
-blankTexture             = TexturePool.loadTexture("images/blank.png")
-foamPatternTexture       = TexturePool.loadTexture("images/foam-pattern.png")
-stillFlowTexture         = TexturePool.loadTexture("images/still-flow.png")
-upFlowTexture            = TexturePool.loadTexture("images/up-flow.png")
-colorLookupTableTextureN = TexturePool.loadTexture("images/lookup-table-neutral.png")
-colorLookupTableTexture0 = TexturePool.loadTexture("images/lookup-table-0.png")
-colorLookupTableTexture1 = TexturePool.loadTexture("images/lookup-table-1.png")
-smokeTexture             = TexturePool.loadTexture("images/smoke.png")
-colorNoiseTexture        = TexturePool.loadTexture("images/color-noise.png")
+blankTexture             = TexturePool.loadTexture("../images/blank.png")
+foamPatternTexture       = TexturePool.loadTexture("../images/foam-pattern.png")
+stillFlowTexture         = TexturePool.loadTexture("../images/still-flow.png")
+upFlowTexture            = TexturePool.loadTexture("../images/up-flow.png")
+colorLookupTableTextureN = TexturePool.loadTexture("../images/lookup-table-neutral.png")
+colorLookupTableTexture0 = TexturePool.loadTexture("../images/lookup-table-0.png")
+colorLookupTableTexture1 = TexturePool.loadTexture("../images/lookup-table-1.png")
+smokeTexture             = TexturePool.loadTexture("../images/smoke.png")
+colorNoiseTexture        = TexturePool.loadTexture("../images/color-noise.png")
 
 setTextureToNearestAndClamp(colorLookupTableTextureN)
 setTextureToNearestAndClamp(colorLookupTableTexture0)
 setTextureToNearestAndClamp(colorLookupTableTexture1)
+
+font = FontPool.load_font("../fonts/font.ttf")
 
 from direct.showbase.ShowBase import ShowBase
 ShowBase()
@@ -444,27 +553,27 @@ base.win.set_clear_color(backgroundColor[1]) # type: ignore
 base.win.set_clear_depth(1.0) # type: ignore
 base.win.set_clear_stencil(0) # type: ignore
 
-#base.camLens.set_fov(cameraFov)
-#base.camLens.set_near_far(cameraNear, cameraFar)
-#
-#cameraNP = base.camera
-#
-#cameraNP.set_pos
-#(calculateCameraPosition
-#    (cameraRotateRadius
-#    , cameraRotatePhi
-#    , cameraRotateTheta
-#    , cameraLookAt
-#    )
-#)
-#cameraNP.look_at(cameraLookAt)
+base.camLens.set_fov(cameraFov) # type: ignore
+base.camLens.set_near_far(cameraNear, cameraFar) # type: ignore
+
+cameraNP = base.camera # type: ignore
+
+cameraNP.set_pos(
+    calculateCameraPosition(
+        cameraRotateRadius,
+        cameraRotatePhi,
+        cameraRotateTheta,
+        cameraLookAt
+    )
+)
+cameraNP.look_at(cameraLookAt)
 
 #print(cameraNP.getPos(render), 'cam world ois')
 
 sceneRootPN = PandaNode("sceneRoot")
 sceneRootNP      = NodePath(sceneRootPN)
 sceneRootNP.reparent_to(render) # type: ignore
-
+ 
 environmentNP = base.loader.loadModel("../eggs/mill-scene/mill-scene.bam") # type: ignore
 environmentNP.reparent_to(sceneRootNP)
 shuttersNP = base.loader.loadModel("../eggs/mill-scene/shutters.bam") # type: ignore
@@ -479,6 +588,11 @@ waterNP   = environmentNP.find("**/water-lp")
 
 waterNP.set_transparency(TransparencyAttrib.M_dual)
 waterNP.set_bin("fixed", 0)
+
+shuttersAnimationCollection = AnimControlCollection()
+auto_bind(shuttersNP.node(), shuttersAnimationCollection, PartGroup.HMF_ok_anim_extra | PartGroup.HMF_ok_part_extra | PartGroup.HMF_ok_wrong_root_name)
+weatherVaneAnimationCollection = AnimControlCollection()
+auto_bind(weatherVaneNP.node(), weatherVaneAnimationCollection, PartGroup.HMF_ok_anim_extra | PartGroup.HMF_ok_part_extra | PartGroup.HMF_ok_wrong_root_name)
 
 cameraNP = base.camera # type: ignore
 
@@ -519,8 +633,7 @@ chromaticAberrationShader   = loadShader("basic",   "chromatic-aberration")
 
 mainCameraNP = NodePath("mainCamera")
 mainCameraNP.set_shader(discardShader)
-mainCamera = base.camera # type: ignore
-#    mainCamera.set_initial_state(mainCameraNP.get_state())
+base.cam.node().set_initial_state(mainCameraNP.get_state()) # type: ignore
 
 isWaterNP = NodePath("isWater")
 isWaterNP.set_shader_input("isWater",            LVecBase2f(1.0, 1.0))
@@ -535,6 +648,7 @@ currentViewWorldMat  = cameraNP.get_transform(render).get_mat() # type: ignore
 previousViewWorldMat = LMatrix4()
 
 framebufferTextureArguments = FramebufferTextureArguments()
+framebufferTextureArguments.window = base.win # type: ignore
 
 framebufferTextureArguments.bitplane       = GraphicsOutput.RTP_color
 framebufferTextureArguments.rgbaBits       = rgba32
@@ -624,7 +738,7 @@ geometryCameraLens2      = geometryCamera2.get_lens()
 
 framebufferTextureArguments.rgbaBits      = rgba8
 framebufferTextureArguments.aux_rgba      = 0
-framebufferTextureArguments.clearColor    = LColor(1, 0, 0, 0)
+framebufferTextureArguments.clearColor    = LColor(0, 0, 0, 0)
 framebufferTextureArguments.setFloatColor = False
 framebufferTextureArguments.useScene      = False
 framebufferTextureArguments.name          = "fog"
@@ -939,7 +1053,7 @@ framebufferTextureArguments.name     = "depthOfField"
 
 depthOfFieldFramebufferTexture = generateFramebufferTexture(framebufferTextureArguments)
 depthOfFieldBuffer = depthOfFieldFramebufferTexture.buffer
-depthOfFieldNP     = depthOfFieldFramebufferTexture.shaderNP
+depthOfFieldNP     = depthOfFieldFramebufferTexture.shaderNP 
 depthOfFieldBuffer.add_render_texture(Texture(), GraphicsOutput.RTM_bind_or_copy, GraphicsOutput.RTP_aux_rgba_0)
 depthOfFieldBuffer.set_clear_active(3, True)
 depthOfFieldBuffer.set_clear_value(3, framebufferTextureArguments.clearColor)
@@ -1081,7 +1195,7 @@ chromaticAberrationNP.set_shader_input("enabled",         chromaticAberrationEna
 chromaticAberrationCamera = chromaticAberrationFramebufferTexture.camera
 chromaticAberrationCamera.set_initial_state(chromaticAberrationNP.get_state())
 
-base.win.set_sort(chromaticAberrationBuffer.get_sort() + 1) # type: ignore
+base.win.get_display_region(0).set_sort(chromaticAberrationBuffer.get_sort() + 1) # type: ignore
 
 showBufferIndex = 0
 
@@ -1129,16 +1243,209 @@ showBufferIndex = len(bufferArray) - 1
 
 showBuffer(render2d, None, bufferArray[showBufferIndex], False) # type: ignore
     
-def taskus(task):
-    global previousViewWorldMat
-    global currentViewWorldMat
-    currentViewWorldMat = cameraNP.get_transform(render).get_mat() # type: ignore
-    foamNP.set_shader_input("viewWorldMat", currentViewWorldMat)
-    motionBlurNP.set_shader_input("previousViewWorldMat",   previousViewWorldMat)
-    previousViewWorldMat = currentViewWorldMat
-    return task.cont
+class Game(ShowBase):
+    def __init__(self):
+        self.last_time = time.time()
+        self.key_time = self.last_time
+
+        self.status_text_node = TextNode('status')
+        self.status_text_node.set_font(font)
+        self.status_text_node.set_text(statusText)
+        self.status_text_node.set_text_color(statusColor)
+        self.status_text_node.set_shadow(0.0, 0.06)
+        self.status_text_node.set_shadow_color(statusShadowColor)
+        self.statusNP = render2d.attach_new_node(self.status_text_node) # type: ignore
+        self.statusNP.set_scale(0.05)
+        self.statusNP.set_pos(-0.96, 0, -0.95)
+
+        taskMgr.add(self.update, "update") # type: ignore
+
+    def update(self, task):
+        global cameraRotatePhi, cameraRotateTheta, cameraRotateRadius, cameraLookAt
+        global fogNear, fogFar, rior, foamDepth, mouseFocusPoint
+        global ssaoEnabled, blinnPhongEnabled, fresnelEnabled, rimLightEnabled, refractionEnabled, reflectionEnabled, fogEnabled
+        global outlineEnabled, celShadingEnabled, normalMapsEnabled, bloomEnabled, sharpenEnabled, depthOfFieldEnabled
+        global filmGrainEnabled, flowMapsEnabled, lookupTableEnabled, painterlyEnabled, motionBlurEnabled, posterizeEnabled
+        global pixelizeEnabled, chromaticAberrationEnabled, animateSunlight, sunlightP, closedShutters
+        global previousViewWorldMat, currentViewWorldMat, mouseThen
+        global statusAlpha, statusText, showBufferIndex
+
+        now = time.time()
+        delta = now - self.last_time
+        self.last_time = now
+
+        movement = 100 * delta
+        key_debounced = (now - self.key_time) >= 0.2
+
+        camera_up_down_adjust = 0
+        camera_left_right_adjust = 0
+
+        # Input handling
+        mouseWatcher = base.mouseWatcherNode # type: ignore
+        
+        if mouseWatcher.is_button_down("w"): cameraRotatePhi -= movement * 0.5
+        if mouseWatcher.is_button_down("s"): cameraRotatePhi += movement * 0.5
+        if mouseWatcher.is_button_down("a"): cameraRotateTheta += movement * 0.5
+        if mouseWatcher.is_button_down("d"): cameraRotateTheta -= movement * 0.5
+        if mouseWatcher.is_button_down("z"): cameraRotateRadius -= movement * 4
+        if mouseWatcher.is_button_down("x"): cameraRotateRadius += movement * 4
+
+        cameraRotatePhi = max(1, min(179, cameraRotatePhi))
+        cameraRotateRadius = max(cameraNear + 5, min(cameraFar - 10, cameraRotateRadius))
+
+        if mouseWatcher.is_button_down("arrow_up"): camera_up_down_adjust = -2 * delta
+        if mouseWatcher.is_button_down("arrow_down"): camera_up_down_adjust = 2 * delta
+        if mouseWatcher.is_button_down("arrow_left"): camera_left_right_adjust = 2 * delta
+        if mouseWatcher.is_button_down("arrow_right"): camera_left_right_adjust = -2 * delta
+
+        if mouseWatcher.has_mouse():
+            mouse_now = mouseWatcher.get_mouse()
+            if mouseWatcher.is_button_down(MouseButton.one()):
+                cameraRotateTheta += (mouseThen.x - mouse_now.x) * movement
+                cameraRotatePhi += (mouse_now.y - mouseThen.y) * movement
+            elif mouseWatcher.is_button_down(MouseButton.three()):
+                camera_left_right_adjust = (mouseThen.x - mouse_now.x) * movement
+                camera_up_down_adjust = (mouseThen.y - mouse_now.y) * movement
+            elif mouseWatcher.is_button_down(MouseButton.two()):
+                mouseFocusPoint.x = (mouse_now.x + 1.0) / 2.0
+                mouseFocusPoint.y = (mouse_now.y + 1.0) / 2.0
+            mouseThen = LVecBase2f(mouse_now)
+
+        shift_down = mouseWatcher.is_button_down("shift")
+
+        if mouseWatcher.is_button_down("["): fogNear -= fogAdjust * (-1 if shift_down else 1)
+        if mouseWatcher.is_button_down("]"): fogFar += fogAdjust * (-1 if shift_down else 1)
+        if mouseWatcher.is_button_down("="): rior.x += riorAdjust * (-1 if shift_down else 1); rior.y = rior.x
+        if mouseWatcher.is_button_down("-"): foamDepth.x += foamDepthAdjust * (-1 if shift_down else 1); foamDepth.y = foamDepth.x
+
+        if key_debounced:
+            def toggle_status(enabled, effect):
+                global statusAlpha, statusText
+                statusAlpha = 1.0
+                statusText = f"{effect} {'On' if enabled.x == 1 else 'Off'}"
+
+            if mouseWatcher.is_button_down("tab"):
+                showBufferIndex += -1 if shift_down else 1
+                if showBufferIndex < 0: showBufferIndex = len(bufferArray) - 1
+                if showBufferIndex >= len(bufferArray): showBufferIndex = 0
+                bufferName, _, _ = bufferArray[showBufferIndex]
+                showAlpha = bufferName in ["Outline", "Foam", "Fog"]
+                showBuffer(render2d, self.statusNP, bufferArray[showBufferIndex], showAlpha) # type: ignore
+                statusAlpha = 1.0
+                statusText = f"{bufferName} Buffer"
+                self.key_time = now
+
+            if mouseWatcher.is_button_down("r"):
+                cameraRotateRadius = cameraRotateRadiusInitial
+                cameraRotatePhi = cameraRotatePhiInitial
+                cameraRotateTheta = cameraRotateThetaInitial
+                cameraLookAt = LVecBase3(cameraLookAtInitial)
+                fogNear, fogFar = fogNearInitial, fogFarInitial
+                foamDepth = LVecBase2f(foamDepthInitial)
+                rior = LVecBase2f(riorInitial)
+                mouseFocusPoint = LVecBase2f(mouseFocusPointInitial)
+                statusAlpha = 1.0
+                statusText = "Reset"
+                self.key_time = now
+
+            toggles = {
+                "y": (ssaoEnabled, "SSAO"), "\\": (chromaticAberrationEnabled, "Chromatic Aberration"),
+                "u": (outlineEnabled, "Outline"), "i": (bloomEnabled, "Bloom"), "o": (normalMapsEnabled, "Normal Maps"),
+                "p": (fogEnabled, "Fog"), "h": (depthOfFieldEnabled, "Depth of Field"), "j": (posterizeEnabled, "Posterize"),
+                "k": (pixelizeEnabled, "Pixelize"), "l": (sharpenEnabled, "Sharpen"), "n": (filmGrainEnabled, "Film Grain"),
+                "m": (reflectionEnabled, "Reflection"), ",": (refractionEnabled, "Refraction"), ".": (flowMapsEnabled, "Flow Maps"),
+                "/": (None, "Sun Animation"), "8": (celShadingEnabled, "Cel Shading"), "9": (lookupTableEnabled, "Lookup Table"),
+                "0": (blinnPhongEnabled, "Blinn-Phong"), "3": (fresnelEnabled, "Fresnel"), "4": (rimLightEnabled, "Rim Light"),
+                "7": (painterlyEnabled, "Painterly"), "6": (motionBlurEnabled, "Motion Blur")
+            }
+            for key, (var, name) in toggles.items():
+                if mouseWatcher.is_button_down(key):
+                    if var is not None:
+                        var = toggleEnabledVec(var)
+                        toggle_status(var, name)
+                    elif name == "Sun Animation":
+                        animateSunlight = not animateSunlight
+                        toggle_status(LVecBase2f(1 if animateSunlight else 0), name)
+                    self.key_time = now
+
+            if mouseWatcher.is_button_down("5"): # Particles
+                if smokeNP.is_hidden(): smokeNP.show()
+                else: smokeNP.hide()
+                self.key_time = now
+
+        if flowMapsEnabled.x > 0:
+            wheelP = wheelNP.get_p() - 90.0 * delta
+            wheelNP.set_p(wheelP % 360)
+
+        middayDown = mouseWatcher.is_button_down("1")
+        midnightDown = mouseWatcher.is_button_down("2")
+        if animateSunlight or middayDown or midnightDown:
+            sunlightP, closedShutters = animateLights(render, shuttersAnimationCollection, delta, -360.0 / 64.0, closedShutters, middayDown, midnightDown) # type: ignore
+
+        # Update camera
+        cameraLookAt = calculateCameraLookAt(camera_up_down_adjust, camera_left_right_adjust, cameraRotatePhi, cameraRotateTheta, cameraLookAt)
+        cameraNP.set_pos(calculateCameraPosition(cameraRotateRadius, cameraRotatePhi, cameraRotateTheta, cameraLookAt))
+        cameraNP.look_at(cameraLookAt)
+
+        currentViewWorldMat = cameraNP.get_transform(render).get_mat() # type: ignore
+
+        # Update shader inputs
+        sunPosVec = LVecBase2f(sunlightP, 0)
+        geometryNP0.set_shader_input("normalMapsEnabled", normalMapsEnabled)
+        geometryNP1.set_shader_input("normalMapsEnabled", normalMapsEnabled)
+        fogNP.set_shader_input("sunPosition", sunPosVec)
+        fogNP.set_shader_input("nearFar", LVecBase2f(fogNear, fogFar))
+        fogNP.set_shader_input("enabled", fogEnabled)
+        ssaoNP.set_shader_input("enabled", ssaoEnabled)
+        refractionUvNP.set_shader_input("enabled", refractionEnabled)
+        refractionUvNP.set_shader_input("rior", rior)
+        reflectionUvNP.set_shader_input("enabled", reflectionEnabled)
+        foamNP.set_shader_input("foamDepth", foamDepth)
+        foamNP.set_shader_input("viewWorldMat", currentViewWorldMat)
+        foamNP.set_shader_input("sunPosition", sunPosVec)
+        bloomNP.set_shader_input("enabled", bloomEnabled)
+        outlineNP.set_shader_input("enabled", outlineEnabled)
+        baseNP.set_shader_input("sunPosition", sunPosVec)
+        baseNP.set_shader_input("normalMapsEnabled", normalMapsEnabled)
+        baseNP.set_shader_input("blinnPhongEnabled", blinnPhongEnabled)
+        baseNP.set_shader_input("fresnelEnabled", fresnelEnabled)
+        baseNP.set_shader_input("rimLightEnabled", rimLightEnabled)
+        baseNP.set_shader_input("celShadingEnabled", celShadingEnabled)
+        baseNP.set_shader_input("flowMapsEnabled", flowMapsEnabled)
+        refractionNP.set_shader_input("sunPosition", sunPosVec)
+        sharpenNP.set_shader_input("enabled", sharpenEnabled)
+        sceneCombineNP.set_shader_input("sunPosition", sunPosVec)
+        depthOfFieldNP.set_shader_input("mouseFocusPoint", mouseFocusPoint)
+        depthOfFieldNP.set_shader_input("enabled", depthOfFieldEnabled)
+        painterlyNP.set_shader_input("parameters", LVecBase2f(3 if painterlyEnabled.x == 1 else 0, 0))
+        motionBlurNP.set_shader_input("previousViewWorldMat", previousViewWorldMat)
+        motionBlurNP.set_shader_input("worldViewMat", render.get_transform(cameraNP).get_mat()) # type: ignore
+        motionBlurNP.set_shader_input("motionBlurEnabled", motionBlurEnabled)
+        posterizeNP.set_shader_input("enabled", posterizeEnabled)
+        pixelizeNP.set_shader_input("enabled", pixelizeEnabled)
+        filmGrainNP.set_shader_input("enabled", filmGrainEnabled)
+        lookupTableNP.set_shader_input("enabled", lookupTableEnabled)
+        lookupTableNP.set_shader_input("sunPosition", sunPosVec)
+        chromaticAberrationNP.set_shader_input("mouseFocusPoint", mouseFocusPoint)
+        chromaticAberrationNP.set_shader_input("enabled", chromaticAberrationEnabled)
+
+        previousViewWorldMat = LMatrix4(currentViewWorldMat)
+
+        # Update status text
+        statusAlpha = max(0.0, statusAlpha - (1.0 / statusFadeRate) * delta)
+        statusColor.w = statusAlpha
+        statusShadowColor.w = statusAlpha
+        self.status_text_node.set_text(statusText)
+        self.status_text_node.set_text_color(statusColor)
+        self.status_text_node.set_shadow_color(statusShadowColor)
+
+        # Update physics
+        particleSystemManager.do_particles(delta)
+        physicsManager.do_physics(delta)
+
+        return task.cont
+
     
 if __name__ == '__main__':
-    taskMgr.add(taskus) # type: ignore
-#    render2d.hide()
+    game = Game()
     base.run() # type: ignore
