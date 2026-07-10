@@ -4,6 +4,8 @@
 
 # 3D Game Shaders For Beginners
 
+> **Note:** This is an updated version of the original [3D Game Shaders For Beginners](https://github.com/lettier/3d-game-shaders-for-beginners) by David Lettier. This version includes a complete Python port of the demonstration application, in addition to the original C++ version. Maintained by [ShivamKR12](https://github.com/ShivamKR12).
+
 Interested in adding
 textures,
 lighting,
@@ -18,9 +20,9 @@ Great!
 Below is a collection of shading techniques that will take your game visuals to new heights.
 I've explained each technique in such a way that you can take what you learn here and apply/port it to
 whatever stack you use—be it Godot, Unity, Unreal, or something else.
-For the glue in between the shaders,
-I've chosen the fabulous Panda3D game engine and the OpenGL Shading Language (GLSL).
-So if that is your stack, then you'll also get the benefit of learning how to use these
+For the glue in between the shaders, the original author chose the fabulous Panda3D game engine and the OpenGL Shading Language (GLSL).
+The demonstration is available in both C++ and Python.
+So if Panda3D is your stack, then you'll also get the benefit of learning how to use these
 shading techniques with Panda3D and OpenGL specifically.
 
 ## Table Of Contents
@@ -61,16 +63,16 @@ shading techniques with Panda3D and OpenGL specifically.
 
 ## License
 
-The included license applies only to the software portion of 3D Game Shaders For Beginners—
-specifically the `.cxx`, `.vert`, and `.frag` source code files.
+The included license applies to the software portion of this project—
+specifically the `.cxx`, `.py`, `.vert`, and `.frag` source code files.
 No other portion of 3D Game Shaders For Beginners has been licensed for use.
 
 ## Attributions
 
 - [Kiwi Soda Font](https://fontenddev.com/fonts/kiwi-soda/)
 
-## Copyright
+## Copyrights
 
-(C) 2019 David Lettier
+(C) 2019 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2024 Shivam Kumar (github.com/ShivamKR12)

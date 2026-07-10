@@ -53,6 +53,7 @@ def calculateCameraPosition(radius, phi, theta, lookAt):
     return LVecBase3f(x, y, z)
 
 def generateFramebufferTexture(framebufferTextureArguments):
+    win            = framebufferTextureArguments.window
     rgbaBits       = framebufferTextureArguments.rgbaBits
     bitplane       = framebufferTextureArguments.bitplane
     aux_rgba       = framebufferTextureArguments.aux_rgba
@@ -73,14 +74,14 @@ def generateFramebufferTexture(framebufferTextureArguments):
 
     hold_tex = Texture()
 
-    buffer = base.graphicsEngine.make_output(base.win.get_pipe(), name + "Buffer" , BACKGROUND_RENDER_SORT_ORDER - 1, fbp, WindowProperties.size(0, 0), GraphicsPipe.BF_refuse_window|GraphicsPipe.BF_resizeable|GraphicsPipe.BF_can_bind_every|GraphicsPipe.BF_rtt_cumulative| GraphicsPipe.BF_size_track_host, base.win.gsg, base.win) # type: ignore
-    buffer.add_render_texture(hold_tex , GraphicsOutput.RTM_bind_or_copy, bitplane)
+    buffer = base.graphicsEngine.make_output(win.get_pipe(), name + "Buffer", BACKGROUND_RENDER_SORT_ORDER - 1, fbp, WindowProperties.size(0, 0), GraphicsPipe.BF_refuse_window | GraphicsPipe.BF_resizeable | GraphicsPipe.BF_can_bind_every | GraphicsPipe.BF_rtt_cumulative | GraphicsPipe.BF_size_track_host, win.gsg, win) # type: ignore
+    buffer.add_render_texture(hold_tex, GraphicsOutput.RTM_bind_or_copy, bitplane)
     buffer.set_clear_color(clearColor)
 
     cameraNP = NodePath("")
     camera   = None
 
-    if (useScene):
+    if useScene:
         cameraNP = base.makeCamera(base.win, lens = base.camLens) # type: ignore
         camera   = cameraNP.node()
 #        camera.set_lens()
@@ -98,7 +99,7 @@ def generateFramebufferTexture(framebufferTextureArguments):
 
     shaderNP = NodePath(name + "Shader")
 
-    if (not useScene):
+    if not useScene:
         renderNP = NodePath(name + "Render")
         renderNP.set_depth_test(False)
         renderNP.set_depth_write(False)
@@ -261,7 +262,7 @@ def setUpParticles(render, smokeTexture, particleSystemManager, physicsManager):
 
 def generateLights(render, showLights):
     ambientLight = AmbientLight("ambientLight")
-    ambientLight.set_color(LVecBase4(0.388, 0.356, 0.447 , 1))
+    ambientLight.set_color(LVecBase4(0.388, 0.356, 0.447, 1))
     ambientLightNP = render.attach_new_node(ambientLight)
     render.set_light(ambientLightNP)
 
@@ -328,7 +329,7 @@ moonlightColor0 =LVecBase4f(0.247, 0.384, 0.404, 1)
 moonlightColor1 =LVecBase4f(0.392, 0.537, 0.571, 1)
 windowLightColor =LVecBase4f(0.765, 0.573, 0.400, 1)
 
-backgroundColor =[LColor(0.392, 0.537, 0.561, 1) , LColor(0.953, 0.733 , 0.525 , 1)]
+backgroundColor =[LColor(0.392, 0.537, 0.561, 1), LColor(0.953, 0.733, 0.525, 1)]
 
 previousViewWorldMat = None
 currentViewWorldMat  = None
