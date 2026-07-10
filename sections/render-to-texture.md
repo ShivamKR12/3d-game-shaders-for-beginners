@@ -59,11 +59,11 @@ I like to think of this second setup as using layers in GIMP, Krita, or Inkscape
 In the example code, you can see the output of a particular framebuffer texture
 by using the <kbd>Tab</kbd> key or the <kbd>Shift</kbd>+<kbd>Tab</kbd> keys.
 
-## Copyright
+## Copyrights
 
-(C) 2019 David Lettier
+(C) 2019 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](glsl.md)
 [:arrow_double_up:](../README.md)

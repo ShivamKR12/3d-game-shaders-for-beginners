@@ -46,7 +46,7 @@ Incorporating the fresnel factor,
 you'll now vary the material specular color based on the angle between the camera and the surface it's pointed at.
 
 ```c
-  // ...
+  // GLSL
 
   vec3 eye = normalize(-vertexPosition.xyz);
 
@@ -59,7 +59,7 @@ If the vertex position is in view or camera space,
 the eye vector is the vertex position pointed in the opposite direction.
 
 ```c
-  // ...
+  // GLSL
 
   vec3 light   = normal(lightPosition.xyz - vertexPosition.xyz);
   vec3 halfway = normalize(light + eye);
@@ -103,7 +103,7 @@ the `fresnelPower` is five but you can alter this to your liking.
 The demo code varies it using the blue channel of the specular map with a maximum value of five.
 
 ```c
-  // ...
+  // GLSL
 
   materialSpecularColor.rgb = mix(materialSpecularColor.rgb, vec3(1.0), fresnelFactor);
 
@@ -116,7 +116,7 @@ As the fresnel factor approaches one,
 the material becomes more like a mirror or fully reflective.
 
 ```c
-  // ...
+  // GLSL
 
   vec4 specular      = vec4(vec3(0.0), 1.0);
        specular.rgb  =   materialSpecularColor.rgb
@@ -141,6 +141,7 @@ the material's specular color various depending on the orientation of the camera
 ### Source
 
 - [main.cxx](../demonstration/src/main.cxx)
+- [main.py](../demonstration/src/main.py)
 - [base.vert](../demonstration/shaders/vertex/base.vert)
 - [base.frag](../demonstration/shaders/fragment/base.frag)
 

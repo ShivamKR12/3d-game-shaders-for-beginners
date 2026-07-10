@@ -76,11 +76,11 @@ The name `fragColor` is arbitrary so feel free to choose a different one.
 
 This is the output of the two shaders shown above.
 
-## Copyright
+## Copyrights
 
-(C) 2019 David Lettier
+(C) 2019 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](reference-frames.md)
 [:arrow_double_up:](../README.md)

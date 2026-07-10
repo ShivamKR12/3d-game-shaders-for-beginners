@@ -1,0 +1,61 @@
+# mkdocs.yml
+site_name: 3D Game Shaders For Beginners
+site_author: Shivam Kumar
+site_url: https://github.com/ShivamKR12/3d-game-shaders-for-beginners
+
+theme:
+  name: material
+  palette:
+    # Light mode
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    # Dark mode
+    - scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.top
+
+# This tells MkDocs where to find your documentation files.
+docs_dir: sections
+
+# This defines the navigation structure of your site.
+nav:
+  - Home: ../README.md
+  - Setup: setup.md
+  - Building The Demo: building-the-demo.md
+  - Running The Demo: running-the-demo.md
+  - Reference Frames: reference-frames.md
+  - GLSL: glsl.md
+  - Render To Texture: render-to-texture.md
+  - Texturing: texturing.md
+  - Lighting: lighting.md
+  - Blinn-Phong: blinn-phong.md
+  - Fresnel Factor: fresnel-factor.md
+  - Rim Lighting: rim-lighting.md
+  - Cel Shading: cel-shading.md
+  - Normal Mapping: normal-mapping.md
+  - Deferred Rendering: deferred-rendering.md
+  - Fog: fog.md
+  - Blur: blur.md
+  - Bloom: bloom.md
+  - SSAO: ssao.md
+  - Motion Blur: motion-blur.md
+  - Chromatic Aberration: chromatic-aberration.md
+  - Screen Space Reflection: screen-space-reflection.md
+  - Screen Space Refraction: screen-space-refraction.md
+  - Foam: foam.md
+  - Flow Mapping: flow-mapping.md
+  - Outlining: outlining.md
+  - Depth Of Field: depth-of-field.md
+  - Posterization: posterization.md
+  - Pixelization: pixelization.md
+  - Sharpen: sharpen.md
+  - Dilation: dilation.md
+  - Film Grain: film-grain.md
+  - Lookup Table (LUT): lookup-table.md
+  - Gamma Correction: gamma-correction.md

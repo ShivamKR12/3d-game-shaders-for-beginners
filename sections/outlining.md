@@ -63,7 +63,7 @@ some color variation to the edges.
 ### Parameters
 
 ```c
-  // ...
+  // GLSL
 
   float minSeparation = 1.0;
   float maxSeparation = 3.0;
@@ -84,7 +84,7 @@ The outline color is based on `colorModifier` and the current fragment's color.
 ### Fragment Position
 
 ```c
-  // ...
+  // GLSL
 
   vec2 texSize   = textureSize(colorTexture, 0).xy;
   vec2 fragCoord = gl_FragCoord.xy;
@@ -102,7 +102,7 @@ the current fragment's screen coordinate divided by the dimensions of the screen
 ### Fragment Depth
 
 ```c
-  // ...
+  // GLSL
 
   float depth =
     clamp
@@ -128,7 +128,7 @@ In other words,
 the depth ranges from zero at the near clipping plane all the way up to one at the far clipping plane.
 
 ```c
-  // ...
+  // GLSL
 
   float separation = mix(maxSeparation, minSeparation, depth);
 
@@ -149,7 +149,7 @@ This tends to look nicer than a constant thickness since it gives depth to the o
 
 
 ```c
-  // ...
+  // GLSL
 
   float mx = 0.0;
 
@@ -195,7 +195,7 @@ and the surrounding fragments' positions.
 </p>
 
 ```c
-  // ...
+  // GLSL
 
   float diff = smoothstep(minDistance, maxDistance, mx);
 
@@ -215,7 +215,7 @@ These values are interpolated along a s-shaped curve.
 ### Line Color
 
 ```c
-  // ...
+  // GLSL
 
   vec3 lineColor = texture(colorTexture, texCoord).rgb * colorModifier;
 
@@ -231,7 +231,7 @@ The line color is the current fragment color either darkened or lightened.
 </p>
 
 ```c
-  // ...
+  // GLSL
 
   fragColor.rgb = vec4(lineColor, diff);
 
@@ -266,7 +266,7 @@ Be sure to blur it and make it tileable.
 This will produce a nice wavy, inky outline.
 
 ```c
-  // ...
+  // GLSL
 
   float noiseScale = 10.0;
 
@@ -277,7 +277,7 @@ The `noiseScale` parameter controls how distorted the outline is.
 The bigger the `noiseScale`, the sketchier the line.
 
 ```c
-  // ...
+  // GLSL
 
   vec2 fragCoord = gl_FragCoord.xy;
 
@@ -295,7 +295,7 @@ Map the two color channels from `[0, 1]` to `[-1, 1]`.
 Finally, scale the noise by the scale chosen earlier.
 
 ```c
-  // ...
+  // GLSL
 
   vec2 texSize  = textureSize(colorTexture, 0).xy;
   vec2 texCoord = (fragCoord - noise) / texSize;
@@ -316,7 +316,7 @@ You could instead add it to the current fragment's coordinates
 which will create more of a squiggly line that loosely follows the geometry.
 
 ```c
-  // ...
+  // GLSL
 
       texCoord =
           (vec2(i, j) * separation + fragCoord + noise)
@@ -340,16 +340,17 @@ The rest of the calculations are the same.
 ### Source
 
 - [main.cxx](../demonstration/src/main.cxx)
+- [main.py](../demonstration/src/main.py)
 - [base.vert](../demonstration/shaders/vertex/base.vert)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [position.frag](../demonstration/shaders/fragment/position.frag)
 - [outline.frag](../demonstration/shaders/fragment/outline.frag)
 
-## Copyright
+## Copyrights
 
-(C) 2019 David Lettier
+(C) 2019 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](flow-mapping.md)
 [:arrow_double_up:](../README.md)

@@ -17,7 +17,7 @@ possibly save you time by not having to create all of the pixel art by hand.
 Combine it with the posterization for a true retro look.
 
 ```c
-  // ...
+  // GLSL
 
   int pixelSize = 5;
 
@@ -32,7 +32,7 @@ The bigger the pixel size, the blockier the image will be.
 </p>
 
 ```c
-  // ...
+  // GLSL
 
   float x = int(gl_FragCoord.x) % pixelSize;
   float y = int(gl_FragCoord.y) % pixelSize;
@@ -65,14 +65,15 @@ pull its color from the input texture and assign that to the fragment color.
 ### Source
 
 - [main.cxx](../demonstration/src/main.cxx)
+- [main.py](../demonstration/src/main.py)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [pixelize.frag](../demonstration/shaders/fragment/pixelize.frag)
 
-## Copyright
+## Copyrights
 
-(C) 2019 David Lettier
+(C) 2019 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](posterization.md)
 [:arrow_double_up:](../README.md)

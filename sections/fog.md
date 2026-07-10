@@ -53,7 +53,7 @@ In addition to the fog's attributes, you'll also need the fragment's vertex `pos
 `fogMin` controls how much of the fog is still visible when the fog is least intense.
 
 ```c
-  // ...
+  // GLSL
 
   float near = nearFar.x;
   float far  = nearFar.y;
@@ -77,7 +77,7 @@ As the vertex `position` gets closer to the end of the fog's `far` distance, the
 For any vertexes after the end of the fog, the `intensity` is clamped to `fogMax`.
 
 ```c
-  // ...
+  // GLSL
 
   fragColor = vec4(color.rgb, intensity);
 
@@ -119,6 +119,7 @@ This allows you to calculate the fog once instead calculating it in every shader
 ### Source
 
 - [main.cxx](../demonstration/src/main.cxx)
+- [main.py](../demonstration/src/main.py)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [position.frag](../demonstration/shaders/fragment/position.frag)
 - [normal.frag](../demonstration/shaders/fragment/normal.frag)
@@ -126,11 +127,11 @@ This allows you to calculate the fog once instead calculating it in every shader
 - [outline.frag](../demonstration/shaders/fragment/outline.frag)
 - [scene-combine.frag](../demonstration/shaders/fragment/scene-combine.frag)
 
-## Copyright
+## Copyrights
 
-(C) 2019 David Lettier
+(C) 2019 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](deferred-rendering.md)
 [:arrow_double_up:](../README.md)

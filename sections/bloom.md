@@ -33,7 +33,7 @@ These parameters control the look and feel.
 And the last parameter, `amount`, controls how much bloom is outputted.
 
 ```c
-  // ...
+  // GLSL
 
   vec2 texSize = textureSize(colorTexture, 0).xy;
 
@@ -58,7 +58,7 @@ The size of the window is `size * 2 + 1` by `size * 2 + 1`.
 So for example, with a `size` setting of two, the window uses `(2 * 2 + 1)^2 = 25` samples per fragment.
 
 ```c
-      // ...
+      // GLSL
 
       color =
         texture
@@ -84,7 +84,7 @@ If this greyscale value is less than the threshold, it discards this color by ma
 After evaluating the sample's greyscale value, it adds its RGB values to `result`.
 
 ```c
-  // ...
+  // GLSL
 
   result /= count;
 
@@ -107,14 +107,15 @@ Here you see the progression of the bloom algorithm.
 ### Source
 
 - [main.cxx](../demonstration/src/main.cxx)
+- [main.py](../demonstration/src/main.py)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [bloom.frag](../demonstration/shaders/fragment/outline.frag)
 
-## Copyright
+## Copyrights
 
-(C) 2019 David Lettier
+(C) 2019 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](blur.md)
 [:arrow_double_up:](../README.md)

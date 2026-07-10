@@ -19,7 +19,7 @@ versus the spherical specular reflections produced by the Phong model.
 In certain cases, Blinn-Phong can be more efficient to calculate than Phong.
 
 ```c
-  // ...
+  // GLSL
 
   vec3 light   = normal(lightPosition.xyz - vertexPosition.xyz);
   vec3 eye     = normalize(-vertexPosition.xyz);
@@ -37,7 +37,7 @@ This vector is between the view/camera/eye and light direction vector.
 </p>
 
 ```c
-    // ...
+    // GLSL
 
     float specularIntensity = dot(normal, halfway);
 
@@ -65,14 +65,15 @@ while the specular intensity for Phong will be zero.
 ### Source
 
 - [main.cxx](../demonstration/src/main.cxx)
+- [main.py](../demonstration/src/main.py)
 - [base.vert](../demonstration/shaders/vertex/base.vert)
 - [base.frag](../demonstration/shaders/fragment/base.frag)
 
-## Copyright
+## Copyrights
 
-(C) 2020 David Lettier
+(C) 2020 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](lighting.md)
 [:arrow_double_up:](../README.md)

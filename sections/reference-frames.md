@@ -65,11 +65,11 @@ The screen space is (typically) relative to the lower left corner of the screen.
 X goes from zero to the screen width.
 Y goes from zero to the screen height.
 
-## Copyright
+## Copyrights
 
-(C) 2019 David Lettier
+(C) 2019 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](running-the-demo.md)
 [:arrow_double_up:](../README.md)

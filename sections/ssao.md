@@ -45,6 +45,8 @@ This being a beginners guide, I'll avoid this optimization and keep it straight 
 Feel free to use the depth buffer, however, for your implementation.
 
 ```cpp
+// C++
+
 PT(Texture) depthTexture =
   new Texture("depthTexture");
 depthTexture->set_format
@@ -77,6 +79,28 @@ PT(DisplayRegion) depthBufferRegion =
 depthBufferRegion->set_camera(depthCameraNP);
 ```
 
+```python
+# Python
+
+from panda3d.core import Texture, GraphicsOutput, Camera
+
+depthTexture = Texture("depthTexture")
+depthTexture.set_format(Texture.F_depth_component32)
+
+depthBuffer = base.win.make_texture_buffer(
+    "depthBuffer",
+    0,
+    0,
+    tex=depthTexture,
+)
+
+depthBuffer.set_clear_color((0, 0, 0, 0))
+
+depthCameraNP = base.make_camera(depthBuffer)
+depthCameraNP.node().set_lens(base.camLens)
+```
+```
+
 If you do decide to use the depth buffer, here's how you can set it up using Panda3D.
 
 ```c
@@ -96,7 +120,7 @@ For example, if a particular interpolated vertex position is `<-139.444444566, 0
 you don't want it stored into the texture as `<0.0, 0.0, 1.0>`.
 
 ```c
-  // ...
+  // GLSL
 
   FrameBufferProperties fbp = FrameBufferProperties::get_default();
 
@@ -273,7 +297,7 @@ change the random `z` component to range from negative one to one.
 ### Noise
 
 ```c
-  // ...
+  // GLSL
 
   for (int i = 0; i < numberOfNoise; ++i) {
     LVecBase3f noise =
@@ -312,7 +336,7 @@ If the sample is farther away from the camera than the position, the sample coun
 Here you see the space above the surface being sampled for occlusion.
 
 ```c
-  // ...
+  // GLSL
 
   float radius    = 1;
   float bias      = 0.01;
@@ -331,7 +355,7 @@ The `magnitude` either lightens or darkens the occlusion map.
 The `contrast` either washes out or increases the starkness of the occlusion map.
 
 ```c
-  // ...
+  // GLSL
 
   vec4 position =           texture(positionTexture, texCoord);
   vec3 normal   = normalize(texture(normalTexture,   texCoord).xyz);
@@ -348,7 +372,7 @@ Recall that the example code created a set number of random vectors.
 The random vector is chosen based on the current fragment's screen position.
 
 ```c
-  // ...
+  // GLSL
 
   vec3 tangent  = normalize(random - normal * dot(random, normal));
   vec3 binormal = cross(normal, tangent);
@@ -361,7 +385,7 @@ Using the random and normal vectors, assemble the tangent, binormal, and normal 
 You'll need this matrix to transform the sample vectors from tangent space to view space.
 
 ```c
-  // ...
+  // GLSL
 
   float occlusion = NUM_SAMPLES;
 
@@ -486,7 +510,7 @@ For the best results, use a median or Kuwahara filter to preserve the sharp edge
 ### Ambient Color
 
 ```c
-  // ...
+  // GLSL
 
   vec2 ssaoBlurTexSize  = textureSize(ssaoBlurTexture, 0).xy;
   vec2 ssaoBlurTexCoord = gl_FragCoord.xy / ssaoBlurTexSize;
@@ -504,6 +528,7 @@ SSAO framebuffer texture and then included in the ambient light calculation.
 ### Source
 
 - [main.cxx](../demonstration/src/main.cxx)
+- [main.py](../demonstration/src/main.py)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [base.vert](../demonstration/shaders/vertex/base.vert)
 - [base.frag](../demonstration/shaders/fragment/base.frag)
@@ -513,11 +538,11 @@ SSAO framebuffer texture and then included in the ambient light calculation.
 - [median-filter.frag](../demonstration/shaders/fragment/median-filter.frag)
 - [kuwahara-filter.frag](../demonstration/shaders/fragment/kuwahara-filter.frag)
 
-## Copyright
+## Copyrights
 
-(C) 2019 David Lettier
+(C) 2019 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](bloom.md)
 [:arrow_double_up:](../README.md)

@@ -63,12 +63,12 @@ you're calculating the lighting per light per fragment which can be multiple tim
 Deferred rendering allows you render complex scenes using many lights but it does come with its own set of tradeoffs.
 Transparency becomes an issue because the geometry data you could see through a semitransparent object is discarded in the first phase.
 Other tradesoffs include increased memory consumption due to the G-buffer and the extra workarounds needed to deal with aliasing.
+ 
+## Copyrights
 
-## Copyright
-
-(C) 2019 David Lettier
+(C) 2019 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](normal-mapping.md)
 [:arrow_double_up:](../README.md)

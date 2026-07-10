@@ -20,7 +20,7 @@ You can also use it to highlight objects in the game,
 making it easier for players to navigate and accomplish tasks.
 
 ```c
-  // ...
+  // GLSL
 
   vec3 eye = normalize(-vertexPosition.xyz);
 
@@ -37,7 +37,7 @@ the eye vector is the negation of the vertex position.
 </p>
 
 ```c
-  // ...
+  // GLSL
 
   float rimLightIntensity = dot(eye, normal);
         rimLightIntensity = 1.0 - rimLightIntensity;
@@ -58,7 +58,7 @@ until it eventually reaches one when the eye and normal become orthogonal or per
 </p>
 
 ```c
-  // ...
+  // GLSL
 
   rimLightIntensity = pow(rimLightIntensity, rimLightPower);
 
@@ -68,7 +68,7 @@ until it eventually reaches one when the eye and normal become orthogonal or per
 You can control the falloff of the rim light using the power function.
 
 ```c
-  // ...
+  // GLSL
 
   rimLightIntensity = smoothstep(0.3, 0.4, rimLightIntensity)
 
@@ -80,7 +80,7 @@ This tends to look better when using [cel shading](cel-shading.md).
 You'll learn more about these functions in later sections.
 
 ```c
-  // ...
+  // GLSL
 
   vec4 rimLight   = rimLightIntensity * diffuse;
        rimLight.a = diffuse.a;
@@ -94,7 +94,7 @@ This will highlight the silhouette without overexposing it
 and without lighting any shadowed fragments.
 
 ```c
-  // ...
+  // GLSL
 
   vec4 outputColor     = vec4(0.0);
        outputColor.a   = diffuseColor.a;
@@ -114,6 +114,7 @@ add it to the ambient, diffuse, specular, and emission lights.
 ### Source
 
 - [main.cxx](../demonstration/src/main.cxx)
+- [main.py](../demonstration/src/main.py)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [base.frag](../demonstration/shaders/fragment/base.frag)
 

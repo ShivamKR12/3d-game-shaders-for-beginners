@@ -1,0 +1,42 @@
+name: Build Documentation
+
+on:
+  push:
+    branches:
+      - master # Or 'main' if that is your default branch
+    paths:
+      - 'sections/**.md'
+      - 'README.md'
+      - 'docs/_template.html5'
+      - 'docs/style.css'
+      - 'docs/_build-docs.sh'
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pandoc
+        run: sudo apt-get update && sudo apt-get install -y pandoc
+
+      - name: Make build script executable
+        run: chmod +x docs/_build-docs.sh
+
+      - name: Build documentation
+        run: ./docs/_build-docs.sh
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add docs/*.html
+          # Check if there are changes to commit
+          if ! git diff --staged --quiet; then
+            git commit -m "docs: auto-generate documentation from markdown"
+            git push
+          else
+            echo "No changes to commit."
+          fi

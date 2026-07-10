@@ -124,7 +124,7 @@ in vec2 normalCoord;
 Using the normal map coordinates the vertex shader sent, pull out the normal from the normal map.
 
 ```c
-  // ...
+  // GLSL
 
   vec3 normal;
 
@@ -190,14 +190,15 @@ The rest of the lighting calculations are the same.
 ### Source
 
 - [main.cxx](../demonstration/src/main.cxx)
+- [main.py](../demonstration/src/main.py)
 - [base.vert](../demonstration/shaders/vertex/base.vert)
 - [base.frag](../demonstration/shaders/fragment/base.frag)
 
-## Copyright
+## Copyrights
 
-(C) 2019 David Lettier
+(C) 2019 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](cel-shading.md)
 [:arrow_double_up:](../README.md)

@@ -11,24 +11,24 @@ from numpy.random import rand
 
 class FramebufferTextureArguments:
     def __init__(self):
-        self.rgbaBits = LVecBase4(0)
-        self.clearColor = LColor(0)
-        self.aux_rgba = 0
+        self.rgbaBits      = LVecBase4(0)
+        self.clearColor    = LColor(0)
+        self.aux_rgba      = 0
         self.setFloatColor = False
-        self.setSrgbColor = False
-        self.setRgbColor = False
-        self.useScene = False
-        self.name = 'no name'
-        self.bitplane = None
+        self.setSrgbColor  = False
+        self.setRgbColor   = False
+        self.useScene      = False
+        self.name          = 'no name'
+        self.bitplane      = None
 
 class FramebufferTexture:
     def __init__(self):
-        self.buffer = None
+        self.buffer       = None
         self.bufferRegion = None
-        self.camera = None
-        self.cameraNP = None
-        self.shaderNP = None
-        self.tex = None
+        self.camera       = None
+        self.cameraNP     = None
+        self.shaderNP     = None
+        self.tex          = None
 
     def generate(self, fbt_args):
         rgbaBits       = fbt_args.rgbaBits
@@ -40,26 +40,29 @@ class FramebufferTexture:
         useScene       = fbt_args.useScene
         name           = fbt_args.name
         clearColor     = fbt_args.clearColor
+
         fbp = FrameBufferProperties()
         fbp.set_back_buffers(0)
         fbp.set_rgba_bits(int(rgbaBits[0]), int(rgbaBits[1]), int(rgbaBits[2]), int(rgbaBits[3]))
         fbp.set_aux_rgba(aux_rgba)
         fbp.set_float_color(setFloatColor)
-        fbp.set_srgb_color (setSrgbColor )
-        fbp.set_rgb_color  (setRgbColor  )
+        fbp.set_srgb_color(setSrgbColor)
+        fbp.set_rgb_color(setRgbColor)
 
 def calculateCameraPosition(radius, phi, theta, lookAt):
     x = radius * sin(radians(phi)) * cos(radians(theta)) + lookAt[0]
     y = radius * sin(radians(phi)) * sin(radians(theta)) + lookAt[1]
     z = radius * cos(radians(phi))                       + lookAt[2]
+
     return LVecBase3f(x, y, z)
 
 def calculateCameraLookAt(upDownAdjust, leftRightAdjust, phi, theta, lookAt):
-    lookAt.x += upDownAdjust * sin(radians(-theta - 90)) * cos(radians(phi))
-    lookAt.y += upDownAdjust * cos(radians(-theta - 90)) * cos(radians(phi))
-    lookAt.z -= -upDownAdjust * sin(radians(phi))
-    lookAt.x += leftRightAdjust * sin(radians(-theta))
-    lookAt.y += leftRightAdjust * cos(radians(-theta))
+    lookAt.x +=  upDownAdjust    * sin(radians(-theta - 90)) * cos(radians(phi))
+    lookAt.y +=  upDownAdjust    * cos(radians(-theta - 90)) * cos(radians(phi))
+    lookAt.z -= -upDownAdjust    * sin(radians(phi))
+    lookAt.x +=  leftRightAdjust * sin(radians(-theta))
+    lookAt.y +=  leftRightAdjust * cos(radians(-theta))
+
     return lookAt
 
 def generateFramebufferTexture(framebufferTextureArguments):
@@ -95,7 +98,7 @@ def generateFramebufferTexture(framebufferTextureArguments):
     if useScene:
         cameraNP = base.makeCamera(base.win, lens = base.camLens) # type: ignore
         camera   = cameraNP.node()
-#        camera.set_lens()
+        # camera.set_lens()
     else:
         camera = Camera(name + "Camera")
         lens = OrthographicLens()
@@ -130,7 +133,8 @@ def generateFramebufferTexture(framebufferTextureArguments):
     result.camera       = camera
     result.cameraNP     = cameraNP
     result.shaderNP     = shaderNP
-    result.tex = hold_tex
+    result.tex          = hold_tex
+
     return result
 
 def hideBuffer(render2d):
@@ -154,6 +158,7 @@ def loadShader(vs, fs):
     shader = Shader.load(Shader.SL_GLSL,
                          vertex= '../shaders/vertex/' + vs + '.vert',
                          fragment='../shaders/fragment/' + fs + ".frag")
+
     return shader
 
 def generateSsaoSamples(numberOfSamples, generator = 1):
@@ -165,13 +170,13 @@ def generateSsaoSamples(numberOfSamples, generator = 1):
     for i in range(numberOfSamples):
         sample = LVecBase3f(rand() * 2.0 - 1.0, rand() * 2.0 - 1.0, rand()).normalized()
 
-        randx = rand()
+        randx      = rand()
         sample[0] *= randx
         sample[1] *= randx
         sample[2] *= randx
 
-        scale =  i / numberOfSamples
-        scale = lerp(0.1, 1.0, scale * scale)
+        scale      =  i / numberOfSamples
+        scale      = lerp(0.1, 1.0, scale * scale)
         sample[0] *= scale
         sample[1] *= scale
         sample[2] *= scale
@@ -184,7 +189,7 @@ def generateSsaoNoise(numberOfNoise):
     ssaoNoise = PTA_LVecBase3f()
 
     for i in range(numberOfNoise):
-        noise =LVecBase3f(rand() * 2.0 - 1.0, rand() * 2.0 - 1.0, 0.0)
+        noise = LVecBase3f(rand() * 2.0 - 1.0, rand() * 2.0 - 1.0, 0.0)
 
         ssaoNoise.push_back(noise)
 
@@ -269,6 +274,7 @@ def setUpParticles(render, smokeTexture, particleSystemManager, physicsManager):
     smokeNP.set_pos(0.47, 4.5, 8.9)
     smokeNP.set_transparency(TransparencyAttrib.M_dual)
     smokeNP.set_bin("fixed", 0)
+
     return smokeNP
 
 def generateWindowLight(name, render, position, show):
@@ -330,7 +336,7 @@ def generateLights(render, showLights):
     moonlightNP.set_pos(0, -17.5, 0)
     moonlightPivotNP.set_hpr(135, 160, 0)
 
-    generateWindowLight("windowLight", render, LVecBase3(1.5, 2.49, 7.9), showLights)
+    generateWindowLight("windowLight",  render, LVecBase3(1.5, 2.49, 7.9), showLights)
     generateWindowLight("windowLight1", render, LVecBase3(3.5, 2.49, 7.9), showLights)
     generateWindowLight("windowLight2", render, LVecBase3(3.5, 1.49, 4.5), showLights)
 
@@ -338,18 +344,18 @@ def mixColor(a, b, factor):
     return a * (1 - factor) + b * factor
 
 def animateLights(render, shuttersAnimationCollection, delta, speed, closedShutters, middayDown, midnightDown):
-    sunlightPivotNP = render.find("**/sunlightPivot")
+    sunlightPivotNP  = render.find("**/sunlightPivot")
     moonlightPivotNP = render.find("**/moonlightPivot")
-    sunlightNP = render.find("**/sunlight")
-    moonlightNP = render.find("**/moonlight")
+    sunlightNP       = render.find("**/sunlight")
+    moonlightNP      = render.find("**/moonlight")
 
-    sunlight = sunlightNP.node()
+    sunlight  = sunlightNP.node()
     moonlight = moonlightNP.node()
 
-    p = sunlightPivotNP.get_p()
+    p  = sunlightPivotNP.get_p()
     p += speed * delta
     if p > 360: p = 0
-    if p < 0: p = 360
+    if p < 0:   p = 360
 
     if middayDown:
         p = 270
@@ -361,11 +367,11 @@ def animateLights(render, shuttersAnimationCollection, delta, speed, closedShutt
 
     mixFactor = 1.0 - (sin(radians(p)) / 2.0 + 0.5)
 
-    sunlightColor = mixColor(sunlightColor0, sunlightColor1, mixFactor)
+    sunlightColor  = mixColor(sunlightColor0, sunlightColor1, mixFactor)
     moonlightColor = mixColor(moonlightColor1, moonlightColor0, mixFactor)
-    lightColor = mixColor(moonlightColor, sunlightColor, mixFactor)
+    lightColor     = mixColor(moonlightColor, sunlightColor, mixFactor)
 
-    dayTimeLightMagnitude = max(0.0, -1 * sin(radians(p)))
+    dayTimeLightMagnitude   = max(0.0, -1 * sin(radians(p)))
     nightTimeLightMagnitude = max(0.0, sin(radians(p)))
 
     sunlight.set_color(lightColor * dayTimeLightMagnitude)
@@ -424,13 +430,13 @@ SSAO_NOISE   = 4
 
 SHADOW_SIZE = 2048
 
-sunlightColor0 =LVecBase4f(0.612, 0.365, 0.306, 1)
-sunlightColor1 =LVecBase4f(0.765, 0.573, 0.400, 1)
-moonlightColor0 =LVecBase4f(0.247, 0.384, 0.404, 1)
-moonlightColor1 =LVecBase4f(0.392, 0.537, 0.571, 1)
-windowLightColor =LVecBase4f(0.765, 0.573, 0.400, 1)
+sunlightColor0   = LVecBase4f(0.612, 0.365, 0.306, 1)
+sunlightColor1   = LVecBase4f(0.765, 0.573, 0.400, 1)
+moonlightColor0  = LVecBase4f(0.247, 0.384, 0.404, 1)
+moonlightColor1  = LVecBase4f(0.392, 0.537, 0.571, 1)
+windowLightColor = LVecBase4f(0.765, 0.573, 0.400, 1)
 
-backgroundColor =[LColor(0.392, 0.537, 0.561, 1), LColor(0.953, 0.733, 0.525, 1)]
+backgroundColor = [LColor(0.392, 0.537, 0.561, 1), LColor(0.953, 0.733, 0.525, 1)]
 
 previousViewWorldMat = None
 currentViewWorldMat  = None
@@ -568,18 +574,21 @@ cameraNP.set_pos(
 )
 cameraNP.look_at(cameraLookAt)
 
-#print(cameraNP.getPos(render), 'cam world ois')
+# print(cameraNP.getPos(render), 'cam world ois')
 
 sceneRootPN = PandaNode("sceneRoot")
 sceneRootNP      = NodePath(sceneRootPN)
 sceneRootNP.reparent_to(render) # type: ignore
- 
+
 environmentNP = base.loader.loadModel("../eggs/mill-scene/mill-scene.bam") # type: ignore
 environmentNP.reparent_to(sceneRootNP)
+
 shuttersNP = base.loader.loadModel("../eggs/mill-scene/shutters.bam") # type: ignore
 shuttersNP.reparent_to(sceneRootNP)
+
 weatherVaneNP = base.loader.loadModel("../eggs/mill-scene/weather-vane.bam") # type: ignore
 weatherVaneNP.reparent_to(sceneRootNP)
+
 bannerNP = base.loader.loadModel("../eggs/mill-scene/banner.bam") # type: ignore
 bannerNP.reparent_to(sceneRootNP)
 
@@ -591,13 +600,14 @@ waterNP.set_bin("fixed", 0)
 
 shuttersAnimationCollection = AnimControlCollection()
 auto_bind(shuttersNP.node(), shuttersAnimationCollection, PartGroup.HMF_ok_anim_extra | PartGroup.HMF_ok_part_extra | PartGroup.HMF_ok_wrong_root_name)
+
 weatherVaneAnimationCollection = AnimControlCollection()
 auto_bind(weatherVaneNP.node(), weatherVaneAnimationCollection, PartGroup.HMF_ok_anim_extra | PartGroup.HMF_ok_part_extra | PartGroup.HMF_ok_wrong_root_name)
 
 cameraNP = base.camera # type: ignore
 
 particleSystemManager = ParticleSystemManager(20)
-physicsManager = PhysicsManager()
+physicsManager        = PhysicsManager()
 
 smokeNP = setUpParticles(render, smokeTexture, particleSystemManager, physicsManager) # type: ignore
 generateLights(render, False) # type: ignore
@@ -1242,11 +1252,11 @@ bufferArray = [
 showBufferIndex = len(bufferArray) - 1
 
 showBuffer(render2d, None, bufferArray[showBufferIndex], False) # type: ignore
-    
+
 class Game(ShowBase):
     def __init__(self):
         self.last_time = time.time()
-        self.key_time = self.last_time
+        self.key_time  = self.last_time
 
         self.status_text_node = TextNode('status')
         self.status_text_node.set_font(font)
@@ -1270,42 +1280,42 @@ class Game(ShowBase):
         global previousViewWorldMat, currentViewWorldMat, mouseThen
         global statusAlpha, statusText, showBufferIndex
 
-        now = time.time()
-        delta = now - self.last_time
+        now            = time.time()
+        delta          = now - self.last_time
         self.last_time = now
 
-        movement = 100 * delta
+        movement      = 100 * delta
         key_debounced = (now - self.key_time) >= 0.2
 
-        camera_up_down_adjust = 0
+        camera_up_down_adjust    = 0
         camera_left_right_adjust = 0
 
         # Input handling
         mouseWatcher = base.mouseWatcherNode # type: ignore
         
-        if mouseWatcher.is_button_down("w"): cameraRotatePhi -= movement * 0.5
-        if mouseWatcher.is_button_down("s"): cameraRotatePhi += movement * 0.5
-        if mouseWatcher.is_button_down("a"): cameraRotateTheta += movement * 0.5
-        if mouseWatcher.is_button_down("d"): cameraRotateTheta -= movement * 0.5
+        if mouseWatcher.is_button_down("w"): cameraRotatePhi    -= movement * 0.5
+        if mouseWatcher.is_button_down("s"): cameraRotatePhi    += movement * 0.5
+        if mouseWatcher.is_button_down("a"): cameraRotateTheta  += movement * 0.5
+        if mouseWatcher.is_button_down("d"): cameraRotateTheta  -= movement * 0.5
         if mouseWatcher.is_button_down("z"): cameraRotateRadius -= movement * 4
         if mouseWatcher.is_button_down("x"): cameraRotateRadius += movement * 4
 
-        cameraRotatePhi = max(1, min(179, cameraRotatePhi))
+        cameraRotatePhi    = max(1, min(179, cameraRotatePhi))
         cameraRotateRadius = max(cameraNear + 5, min(cameraFar - 10, cameraRotateRadius))
 
-        if mouseWatcher.is_button_down("arrow_up"): camera_up_down_adjust = -2 * delta
-        if mouseWatcher.is_button_down("arrow_down"): camera_up_down_adjust = 2 * delta
-        if mouseWatcher.is_button_down("arrow_left"): camera_left_right_adjust = 2 * delta
+        if mouseWatcher.is_button_down("arrow_up"):    camera_up_down_adjust    = -2 * delta
+        if mouseWatcher.is_button_down("arrow_down"):  camera_up_down_adjust    =  2 * delta
+        if mouseWatcher.is_button_down("arrow_left"):  camera_left_right_adjust =  2 * delta
         if mouseWatcher.is_button_down("arrow_right"): camera_left_right_adjust = -2 * delta
 
         if mouseWatcher.has_mouse():
             mouse_now = mouseWatcher.get_mouse()
             if mouseWatcher.is_button_down(MouseButton.one()):
                 cameraRotateTheta += (mouseThen.x - mouse_now.x) * movement
-                cameraRotatePhi += (mouse_now.y - mouseThen.y) * movement
+                cameraRotatePhi   += (mouse_now.y - mouseThen.y) * movement
             elif mouseWatcher.is_button_down(MouseButton.three()):
                 camera_left_right_adjust = (mouseThen.x - mouse_now.x) * movement
-                camera_up_down_adjust = (mouseThen.y - mouse_now.y) * movement
+                camera_up_down_adjust    = (mouseThen.y - mouse_now.y) * movement
             elif mouseWatcher.is_button_down(MouseButton.two()):
                 mouseFocusPoint.x = (mouse_now.x + 1.0) / 2.0
                 mouseFocusPoint.y = (mouse_now.y + 1.0) / 2.0
@@ -1313,16 +1323,16 @@ class Game(ShowBase):
 
         shift_down = mouseWatcher.is_button_down("shift")
 
-        if mouseWatcher.is_button_down("["): fogNear -= fogAdjust * (-1 if shift_down else 1)
-        if mouseWatcher.is_button_down("]"): fogFar += fogAdjust * (-1 if shift_down else 1)
-        if mouseWatcher.is_button_down("="): rior.x += riorAdjust * (-1 if shift_down else 1); rior.y = rior.x
+        if mouseWatcher.is_button_down("["): fogNear     -= fogAdjust       * (-1 if shift_down else 1)
+        if mouseWatcher.is_button_down("]"): fogFar      += fogAdjust       * (-1 if shift_down else 1)
+        if mouseWatcher.is_button_down("="): rior.x      += riorAdjust      * (-1 if shift_down else 1); rior.y      = rior.x
         if mouseWatcher.is_button_down("-"): foamDepth.x += foamDepthAdjust * (-1 if shift_down else 1); foamDepth.y = foamDepth.x
 
         if key_debounced:
             def toggle_status(enabled, effect):
                 global statusAlpha, statusText
                 statusAlpha = 1.0
-                statusText = f"{effect} {'On' if enabled.x == 1 else 'Off'}"
+                statusText  = f"{effect} {'On' if enabled.x == 1 else 'Off'}"
 
             if mouseWatcher.is_button_down("tab"):
                 showBufferIndex += -1 if shift_down else 1
@@ -1337,26 +1347,26 @@ class Game(ShowBase):
 
             if mouseWatcher.is_button_down("r"):
                 cameraRotateRadius = cameraRotateRadiusInitial
-                cameraRotatePhi = cameraRotatePhiInitial
-                cameraRotateTheta = cameraRotateThetaInitial
-                cameraLookAt = LVecBase3(cameraLookAtInitial)
-                fogNear, fogFar = fogNearInitial, fogFarInitial
-                foamDepth = LVecBase2f(foamDepthInitial)
-                rior = LVecBase2f(riorInitial)
-                mouseFocusPoint = LVecBase2f(mouseFocusPointInitial)
-                statusAlpha = 1.0
-                statusText = "Reset"
-                self.key_time = now
+                cameraRotatePhi    = cameraRotatePhiInitial
+                cameraRotateTheta  = cameraRotateThetaInitial
+                cameraLookAt       = LVecBase3(cameraLookAtInitial)
+                fogNear, fogFar    = fogNearInitial, fogFarInitial
+                foamDepth          = LVecBase2f(foamDepthInitial)
+                rior               = LVecBase2f(riorInitial)
+                mouseFocusPoint    = LVecBase2f(mouseFocusPointInitial)
+                statusAlpha        = 1.0
+                statusText         = "Reset"
+                self.key_time      = now
 
             toggles = {
-                "y": (ssaoEnabled, "SSAO"), "\\": (chromaticAberrationEnabled, "Chromatic Aberration"),
-                "u": (outlineEnabled, "Outline"), "i": (bloomEnabled, "Bloom"), "o": (normalMapsEnabled, "Normal Maps"),
-                "p": (fogEnabled, "Fog"), "h": (depthOfFieldEnabled, "Depth of Field"), "j": (posterizeEnabled, "Posterize"),
-                "k": (pixelizeEnabled, "Pixelize"), "l": (sharpenEnabled, "Sharpen"), "n": (filmGrainEnabled, "Film Grain"),
-                "m": (reflectionEnabled, "Reflection"), ",": (refractionEnabled, "Refraction"), ".": (flowMapsEnabled, "Flow Maps"),
-                "/": (None, "Sun Animation"), "8": (celShadingEnabled, "Cel Shading"), "9": (lookupTableEnabled, "Lookup Table"),
-                "0": (blinnPhongEnabled, "Blinn-Phong"), "3": (fresnelEnabled, "Fresnel"), "4": (rimLightEnabled, "Rim Light"),
-                "7": (painterlyEnabled, "Painterly"), "6": (motionBlurEnabled, "Motion Blur")
+                "y": (ssaoEnabled,       "SSAO"         ), "\\": (chromaticAberrationEnabled, "Chromatic Aberration"),
+                "u": (outlineEnabled,    "Outline"      ), "i": (bloomEnabled,                "Bloom"               ), "o": (normalMapsEnabled,  "Normal Maps" ),
+                "p": (fogEnabled,        "Fog"          ), "h": (depthOfFieldEnabled,         "Depth of Field"      ), "j": (posterizeEnabled,   "Posterize"   ),
+                "k": (pixelizeEnabled,   "Pixelize"     ), "l": (sharpenEnabled,              "Sharpen"             ), "n": (filmGrainEnabled,   "Film Grain"  ),
+                "m": (reflectionEnabled, "Reflection"   ), ",": (refractionEnabled,           "Refraction"          ), ".": (flowMapsEnabled,    "Flow Maps"   ),
+                "/": (None,              "Sun Animation"), "8": (celShadingEnabled,           "Cel Shading"         ), "9": (lookupTableEnabled, "Lookup Table"),
+                "0": (blinnPhongEnabled, "Blinn-Phong"  ), "3": (fresnelEnabled,              "Fresnel"             ), "4": (rimLightEnabled,    "Rim Light"   ),
+                "7": (painterlyEnabled,  "Painterly"    ), "6": (motionBlurEnabled,           "Motion Blur"         )
             }
             for key, (var, name) in toggles.items():
                 if mouseWatcher.is_button_down(key):
@@ -1377,7 +1387,7 @@ class Game(ShowBase):
             wheelP = wheelNP.get_p() - 90.0 * delta
             wheelNP.set_p(wheelP % 360)
 
-        middayDown = mouseWatcher.is_button_down("1")
+        middayDown   = mouseWatcher.is_button_down("1")
         midnightDown = mouseWatcher.is_button_down("2")
         if animateSunlight or middayDown or midnightDown:
             sunlightP, closedShutters = animateLights(render, shuttersAnimationCollection, delta, -360.0 / 64.0, closedShutters, middayDown, midnightDown) # type: ignore
@@ -1391,43 +1401,43 @@ class Game(ShowBase):
 
         # Update shader inputs
         sunPosVec = LVecBase2f(sunlightP, 0)
-        geometryNP0.set_shader_input("normalMapsEnabled", normalMapsEnabled)
-        geometryNP1.set_shader_input("normalMapsEnabled", normalMapsEnabled)
-        fogNP.set_shader_input("sunPosition", sunPosVec)
-        fogNP.set_shader_input("nearFar", LVecBase2f(fogNear, fogFar))
-        fogNP.set_shader_input("enabled", fogEnabled)
-        ssaoNP.set_shader_input("enabled", ssaoEnabled)
-        refractionUvNP.set_shader_input("enabled", refractionEnabled)
-        refractionUvNP.set_shader_input("rior", rior)
-        reflectionUvNP.set_shader_input("enabled", reflectionEnabled)
-        foamNP.set_shader_input("foamDepth", foamDepth)
-        foamNP.set_shader_input("viewWorldMat", currentViewWorldMat)
-        foamNP.set_shader_input("sunPosition", sunPosVec)
-        bloomNP.set_shader_input("enabled", bloomEnabled)
-        outlineNP.set_shader_input("enabled", outlineEnabled)
-        baseNP.set_shader_input("sunPosition", sunPosVec)
-        baseNP.set_shader_input("normalMapsEnabled", normalMapsEnabled)
-        baseNP.set_shader_input("blinnPhongEnabled", blinnPhongEnabled)
-        baseNP.set_shader_input("fresnelEnabled", fresnelEnabled)
-        baseNP.set_shader_input("rimLightEnabled", rimLightEnabled)
-        baseNP.set_shader_input("celShadingEnabled", celShadingEnabled)
-        baseNP.set_shader_input("flowMapsEnabled", flowMapsEnabled)
-        refractionNP.set_shader_input("sunPosition", sunPosVec)
-        sharpenNP.set_shader_input("enabled", sharpenEnabled)
-        sceneCombineNP.set_shader_input("sunPosition", sunPosVec)
-        depthOfFieldNP.set_shader_input("mouseFocusPoint", mouseFocusPoint)
-        depthOfFieldNP.set_shader_input("enabled", depthOfFieldEnabled)
-        painterlyNP.set_shader_input("parameters", LVecBase2f(3 if painterlyEnabled.x == 1 else 0, 0))
-        motionBlurNP.set_shader_input("previousViewWorldMat", previousViewWorldMat)
-        motionBlurNP.set_shader_input("worldViewMat", render.get_transform(cameraNP).get_mat()) # type: ignore
-        motionBlurNP.set_shader_input("motionBlurEnabled", motionBlurEnabled)
-        posterizeNP.set_shader_input("enabled", posterizeEnabled)
-        pixelizeNP.set_shader_input("enabled", pixelizeEnabled)
-        filmGrainNP.set_shader_input("enabled", filmGrainEnabled)
-        lookupTableNP.set_shader_input("enabled", lookupTableEnabled)
-        lookupTableNP.set_shader_input("sunPosition", sunPosVec)
-        chromaticAberrationNP.set_shader_input("mouseFocusPoint", mouseFocusPoint)
-        chromaticAberrationNP.set_shader_input("enabled", chromaticAberrationEnabled)
+        geometryNP0.set_shader_input(          "normalMapsEnabled",    normalMapsEnabled)
+        geometryNP1.set_shader_input(          "normalMapsEnabled",    normalMapsEnabled)
+        fogNP.set_shader_input(                "sunPosition",          sunPosVec)
+        fogNP.set_shader_input(                "nearFar",              LVecBase2f(fogNear, fogFar))
+        fogNP.set_shader_input(                "enabled",              fogEnabled)
+        ssaoNP.set_shader_input(               "enabled",              ssaoEnabled)
+        refractionUvNP.set_shader_input(       "enabled",              refractionEnabled)
+        refractionUvNP.set_shader_input(       "rior",                 rior)
+        reflectionUvNP.set_shader_input(       "enabled",              reflectionEnabled)
+        foamNP.set_shader_input(               "foamDepth",            foamDepth)
+        foamNP.set_shader_input(               "viewWorldMat",         currentViewWorldMat)
+        foamNP.set_shader_input(               "sunPosition",          sunPosVec)
+        bloomNP.set_shader_input(              "enabled",              bloomEnabled)
+        outlineNP.set_shader_input(            "enabled",              outlineEnabled)
+        baseNP.set_shader_input(               "sunPosition",          sunPosVec)
+        baseNP.set_shader_input(               "normalMapsEnabled",    normalMapsEnabled)
+        baseNP.set_shader_input(               "blinnPhongEnabled",    blinnPhongEnabled)
+        baseNP.set_shader_input(               "fresnelEnabled",       fresnelEnabled)
+        baseNP.set_shader_input(               "rimLightEnabled",      rimLightEnabled)
+        baseNP.set_shader_input(               "celShadingEnabled",    celShadingEnabled)
+        baseNP.set_shader_input(               "flowMapsEnabled",      flowMapsEnabled)
+        refractionNP.set_shader_input(         "sunPosition",          sunPosVec)
+        sharpenNP.set_shader_input(            "enabled",              sharpenEnabled)
+        sceneCombineNP.set_shader_input(       "sunPosition",          sunPosVec)
+        depthOfFieldNP.set_shader_input(       "mouseFocusPoint",      mouseFocusPoint)
+        depthOfFieldNP.set_shader_input(       "enabled",              depthOfFieldEnabled)
+        painterlyNP.set_shader_input(          "parameters",           LVecBase2f(3 if painterlyEnabled.x == 1 else 0, 0))
+        motionBlurNP.set_shader_input(         "previousViewWorldMat", previousViewWorldMat)
+        motionBlurNP.set_shader_input(         "worldViewMat",         render.get_transform(cameraNP).get_mat()) # type: ignore
+        motionBlurNP.set_shader_input(         "motionBlurEnabled",    motionBlurEnabled)
+        posterizeNP.set_shader_input(          "enabled",              posterizeEnabled)
+        pixelizeNP.set_shader_input(           "enabled",              pixelizeEnabled)
+        filmGrainNP.set_shader_input(          "enabled",              filmGrainEnabled)
+        lookupTableNP.set_shader_input(        "enabled",              lookupTableEnabled)
+        lookupTableNP.set_shader_input(        "sunPosition",          sunPosVec)
+        chromaticAberrationNP.set_shader_input("mouseFocusPoint",      mouseFocusPoint)
+        chromaticAberrationNP.set_shader_input("enabled",              chromaticAberrationEnabled)
 
         previousViewWorldMat = LMatrix4(currentViewWorldMat)
 

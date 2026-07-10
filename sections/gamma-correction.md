@@ -71,7 +71,7 @@ to modify the values of an sRGB texture,
 you first have to decode or transform them to RGB or linear color space.
 
 ```c
-  // ...
+  // GLSL
 
   color     = texture(color_texture, uv);
   color.rgb = pow(color.rgb, 2.2);
@@ -137,7 +137,7 @@ Still, the only thing to remember is that your display is expecting sRGB encoded
 Therefore, if you decoded a sRGB value, you have to encode it before it makes its way to your display.
 
 ```c
-  // ...
+  // GLSL
 
   color     = texture(color_texture, uv);
   color.rgb = pow(color.rgb, 1.0 / 2.2);
@@ -157,6 +157,7 @@ Here you see the symmetry in decoding and encoding.
 ### Source
 
 - [main.cxx](../demonstration/src/main.cxx)
+- [main.py](../demonstration/src/main.py)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [gamma-correction.frag](../demonstration/shaders/fragment/gamma-correction.frag)
 

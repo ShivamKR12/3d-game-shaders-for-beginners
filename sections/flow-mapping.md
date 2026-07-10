@@ -72,7 +72,7 @@ offset the UV coordinates of a another texture.
 </p>
 
 ```c
-  // ...
+  // GLSL
 
   vec2 flow = texture(flowTexture, diffuseCoord).xy;
        flow = (flow - 0.5) * 2;
@@ -114,15 +114,16 @@ It is a timestamp of how many seconds have passed since the first frame.
 ### Source
 
 - [main.cxx](../demonstration/src/main.cxx)
+- [main.py](../demonstration/src/main.py)
 - [base.vert](../demonstration/shaders/vertex/base.vert)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [normal.frag](../demonstration/shaders/fragment/normal.frag)
 
-## Copyright
+## Copyrights
 
-(C) 2019 David Lettier
+(C) 2019 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](foam.md)
 [:arrow_double_up:](../README.md)

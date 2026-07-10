@@ -165,7 +165,7 @@ This would be okay for a completely transparent surface but usually
 the refractive surface will have some tint to it, reflection, etc.
 
 ```c
-  // ...
+  // GLSL
 
   vec2 texSize  = textureSize(positionFromTexture, 0).xy;
   vec2 texCoord = gl_FragCoord.xy / texSize;
@@ -189,7 +189,7 @@ The wheel and waterway disturb what is otherwise a smooth gradient.
 The disruptions shift the UV coordinates from their screen position to their refracted screen position.
 
 ```c
-  // ...
+  // GLSL
 
   vec3 unitPositionFrom = normalize(positionFrom.xyz);
   vec3 normalFrom       = normalize(texture(normalFromTexture, texCoord).xyz);
@@ -271,7 +271,7 @@ the foreground and background vertex positions,
 and the background colors.
 
 ```c
-  // ...
+  // GLSL
 
   vec3  tintColor = vec3(0.27, 0.58, 0.92, 0.3);
   float depthMax  = 2;
@@ -287,7 +287,7 @@ the foreground color will be the fully tinted background color.
 At distance zero, the foreground will be the background color.
 
 ```c
-  // ...
+  // GLSL
 
   vec2 texSize  = textureSize(backgroundColorTexture, 0).xy;
   vec2 texCoord = gl_FragCoord.xy / texSize;
@@ -312,7 +312,7 @@ and the background color.
 If the refraction mask is turned off for this fragment, return nothing.
 
 ```c
-  // ...
+  // GLSL
 
   float depth   = length(positionTo.xyz - positionFrom.xyz);
   float mixture = clamp(depth / depthMax, 0, 1);
@@ -334,7 +334,7 @@ At `depthMax`, the foreground color will be the deep color.
 The deep color is the background color tinted with `tintColor`.
 
 ```c
-  // ...
+  // GLSL
 
   fragColor = mix(vec4(0), vec4(foregroundColor, 1), uv.b);
 
@@ -349,6 +349,7 @@ As the visibility lessens, the fragment color will receive less and less of the 
 ### Source
 
 - [main.cxx](../demonstration/src/main.cxx)
+- [main.py](../demonstration/src/main.py)
 - [base.vert](../demonstration/shaders/vertex/base.vert)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [position.frag](../demonstration/shaders/fragment/position.frag)
@@ -358,11 +359,11 @@ As the visibility lessens, the fragment color will receive less and less of the 
 - [refraction.frag](../demonstration/shaders/fragment/refraction.frag)
 - [base-combine.frag](../demonstration/shaders/fragment/base-combine.frag)
 
-## Copyright
+## Copyrights
 
-(C) 2019 David Lettier
+(C) 2019 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](screen-space-reflection.md)
 [:arrow_double_up:](../README.md)

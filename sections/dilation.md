@@ -18,7 +18,7 @@ This tends to create a pillowy look.
 You can use dilation for a glow/bloom effect or to add bokeh to your [depth of field](depth-of-field.md).
 
 ```c
-  // ...
+  // GLSL
 
   int   size         = int(parameters.x);
   float separation   =     parameters.y;
@@ -34,7 +34,7 @@ A larger `separation` will increase the dilation at the cost of quality.
 The `minThreshold` and `maxThreshold` parameters control which parts of the image become dilated.
 
 ```c
-  // ...
+  // GLSL
 
   vec2 texSize   = textureSize(colorTexture, 0).xy;
   vec2 fragCoord = gl_FragCoord.xy;
@@ -47,7 +47,7 @@ The `minThreshold` and `maxThreshold` parameters control which parts of the imag
 Sample the color at the current fragment's position.
 
 ```c
-  // ...
+  // GLSL
 
   float  mx = 0.0;
   vec4  cmx = fragColor;
@@ -129,7 +129,7 @@ If the sampled greyscale value is larger than the current maximum greyscale valu
 update the maximum greyscale value and its corresponding color.
 
 ```c
-  // ...
+  // GLSL
 
   fragColor.rgb =
     mix
@@ -153,6 +153,7 @@ the fragment color is a mix between the current fragment color and the brightest
 ### Source
 
 - [main.cxx](../demonstration/src/main.cxx)
+- [main.py](../demonstration/src/main.py)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [dilation.frag](../demonstration/shaders/fragment/dilation.frag)
 

@@ -64,7 +64,7 @@ It takes a foam pattern texture and UV maps it to the scene's geometry using the
 For every model, except the water, the shader is given a solid black texture as the `foamPatternTexture`.
 
 ```c
-  // ...
+  // GLSL
 
   fragColor = vec4(vec3(dot(foamPattern.rgb, vec3(1)) / 3), 1);
 
@@ -94,7 +94,7 @@ and the background vertex positions (`positionToTexture`).
 ### Parameters
 
 ```c
-  // ...
+  // GLSL
 
   float foamDepth = 4;
   vec4  foamColor = vec4(0.8, 0.85, 0.92, 1);
@@ -109,7 +109,7 @@ As the foam depth increases, the amount of foam shown increases.
 ### Distance
 
 ```c
-  // ...
+  // GLSL
 
   vec4 positionFrom = texture(positionFromTexture, texCoord);
   vec4 positionTo   = texture(positionToTexture,   texCoord);
@@ -125,7 +125,7 @@ Since the positions are in view (camera) space, we only need the y value since i
 ### Amount
 
 ```c
-  // ...
+  // GLSL
 
   float amount  = clamp(depth / foamDepth.x, 0, 1);
         amount  = 1 - amount;
@@ -155,7 +155,7 @@ This will give a lot of foam near depth zero and little to no foam near `foamDep
 ### Fragment Color
 
 ```c
-  // ...
+  // GLSL
 
   fragColor = mix(vec4(0), foamColor, amount);
 
@@ -167,6 +167,7 @@ The fragment color is a mix between transparent black and the foam color based o
 ### Source
 
 - [main.cxx](../demonstration/src/main.cxx)
+- [main.py](../demonstration/src/main.py)
 - [base.vert](../demonstration/shaders/vertex/base.vert)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [position.frag](../demonstration/shaders/fragment/position.frag)
@@ -174,11 +175,11 @@ The fragment color is a mix between transparent black and the foam color based o
 - [foam.frag](../demonstration/shaders/fragment/foam.frag)
 - [base-combine.frag](../demonstration/shaders/fragment/base-combine.frag)
 
-## Copyright
+## Copyrights
 
-(C) 2019 David Lettier
+(C) 2019 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](screen-space-refraction.md)
 [:arrow_double_up:](../README.md)

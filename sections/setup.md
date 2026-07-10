@@ -108,11 +108,11 @@ This comes in handy when doing SSAO and other screen/window sized related techni
 is usually not a power of two.
 `textures-power-2 down` downsizes our textures to a power of two if the system only supports texture sizes being a power of two.
 
-## Copyright
+## Copyrights
 
-(C) 2019 David Lettier
+(C) 2019 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](gamma-correction.md)
 [:arrow_double_up:](../README.md)

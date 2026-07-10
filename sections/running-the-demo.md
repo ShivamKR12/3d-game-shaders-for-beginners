@@ -12,7 +12,9 @@
 <img src="https://i.imgur.com/y5XcReP.gif" alt="Running The Demo" title="Running The Demo">
 </p>
 
-After you've built the example code, you can now run the executable or demo.
+After you've set up the dependencies, you can run the demo.
+
+### C++
 
 ```bash
 ./3d-game-shaders-for-beginners
@@ -115,11 +117,11 @@ click anywhere on the scene using the <kbd>Middle Mouse</kbd> button.
 - <kbd>Tab</kbd> to move forward through the framebuffer textures.
 - <kbd>Shift</kbd>+<kbd>Tab</kbd> to move backward through the framebuffer textures.
 
-## Copyright
+## Copyrights
 
-(C) 2019 David Lettier
+(C) 2019 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](building-the-demo.md)
 [:arrow_double_up:](../README.md)

@@ -22,7 +22,7 @@ When combined with [outlining](outlining.md), cel shading can really sell the 2D
 ## Diffuse
 
 ```c
-    // ...
+    // GLSL
 
     float diffuseIntensity = max(dot(normal, unitLightDirection), 0.0);
           diffuseIntensity = step(0.1, diffuseIntensity);
@@ -44,7 +44,7 @@ The `step` function returns zero if the input is less than the edge and one othe
 </p>
 
 ```c
-  // ...
+  // GLSL
 
   if      (diffuseIntensity >= 0.8) { diffuseIntensity = 1.0; }
   else if (diffuseIntensity >= 0.6) { diffuseIntensity = 0.6; }
@@ -62,7 +62,7 @@ you can perform something like the above.
 </p>
 
 ```c
-  // ...
+  // GLSL
 
   diffuseIntensity = texture(steps, vec2(diffuseIntensity, 0.0)).r;
 
@@ -75,7 +75,7 @@ Using the `diffuseIntensity` as a U coordinate, it will automatically transform 
 ## Specular
 
 ```c
-
+    // GLSL
       // ...
 
       float specularIntensity = clamp(dot(normal, halfwayDirection), 0.0, 1.0);
@@ -91,14 +91,15 @@ After you've altered the `specularIntensity`, the rest of the lighting calculati
 ### Source
 
 - [main.cxx](../demonstration/src/main.cxx)
+- [main.py](../demonstration/src/main.py)
 - [base.vert](../demonstration/shaders/vertex/base.vert)
 - [base.frag](../demonstration/shaders/fragment/base.frag)
 
-## Copyright
+## Copyrights
 
-(C) 2020 David Lettier
+(C) 2020 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](rim-lighting.md)
 [:arrow_double_up:](../README.md)

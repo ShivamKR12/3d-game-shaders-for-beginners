@@ -98,11 +98,11 @@ To map x to U, divide x by the width of the input texture.
 Similarly, to map y to V, divide y by the height of the input texture.
 You'll see this technique used in the example code.
 
-## Copyright
+## Copyrights
 
-(C) 2019 David Lettier
+(C) 2019 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](render-to-texture.md)
 [:arrow_double_up:](../README.md)

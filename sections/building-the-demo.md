@@ -1,7 +1,7 @@
 [:arrow_backward:](setup.md)
 [:arrow_double_up:](../README.md)
 [:arrow_up_small:](#)
-[:arrow_down_small:](#copyright)
+[:arrow_down_small:](#copyright) 
 [:arrow_forward:](running-the-demo.md)
 
 # 3D Game Shaders For Beginners
@@ -12,11 +12,25 @@
 <img src="https://i.imgur.com/PQcDnIu.gif" alt="Building The Demo" title="Building The Demo">
 </p>
 
-Before you can try out the demo program, you'll have to build the example code first.
+The demonstration is available in both C++ and Python.
+
+### Python
+
+The Python version does not require compilation. You just need to install the dependencies.
+
+### C++
+
+Before you can try out the C++ demo program, you'll have to build it first.
 
 ### Dependencies
 
-Before you can compile the example code, you'll need to install
+For Python, you will need to install Panda3D and `numpy`.
+
+```bash
+pip install panda3d numpy
+```
+
+For C++, before you can compile the example code, you'll need to install
 [Panda3D](https://www.panda3d.org/)
 for your platform.
 Panda3D is available for Linux, Mac, and Windows.
@@ -28,11 +42,12 @@ Start by [installing](https://www.panda3d.org/manual/?title=Installing_Panda3D_i
 
 Make sure to locate where the Panda3D headers and libraries are.
 The headers and libraries are most likely in `/usr/include/panda3d/` and `/usr/lib/panda3d/` respectively.
+You will need to set the `P3D_INCLUDE_PATH` and `P3D_LIB_PATH` environment variables.
 
 Next clone this repository and change directory into it.
 
 ```bash
-git clone https://github.com/lettier/3d-game-shaders-for-beginners.git
+git clone https://github.com/ShivamKR12/3d-game-shaders-for-beginners.git
 cd 3d-game-shaders-for-beginners/demonstration
 ```
 
@@ -130,11 +145,11 @@ cd 3d-game-shaders-for-beginners
 
 For more help, see the [Panda3D manual](https://www.panda3d.org/manual/?title=Running_your_Program&language=cxx).
 
-## Copyright
+## Copyrights
 
-(C) 2019 David Lettier
+(C) 2019 David Lettier (lettier.com)
 <br>
-[lettier.com](https://www.lettier.com)
+(C) 2026 Shivam Kumar
 
 [:arrow_backward:](setup.md)
 [:arrow_double_up:](../README.md)

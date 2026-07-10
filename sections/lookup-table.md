@@ -48,7 +48,7 @@ When you're done editing, select only the LUT and save it as a new image.
 You now have your new lookup table and can begin writing your shader.
 
 ```c
-  // ...
+  // GLSL
 
   vec2 texSize = textureSize(colorTexture, 0).xy;
 
@@ -61,7 +61,7 @@ The LUT shader is a screen space technique.
 Therefore, sample the scene's color at the current fragment or screen position.
 
 ```c
-  // ...
+  // GLSL
 
   float u  =  floor(color.b * 15.0) / 15.0 * 240.0;
         u  = (floor(color.r * 15.0) / 15.0 *  15.0) + u;
@@ -93,7 +93,7 @@ the green channel maps to one of the 16 vertical pixel positions within the bloc
 These three mappings will determine the UV coordinate you'll need to sample a color from the LUT.
 
 ```c
-  // ...
+  // GLSL
 
         u /= 255.0;
 
@@ -109,7 +109,7 @@ You'll also need to subtract the normalized V coordinate from one since V ranges
 the green channel ranges from zero at the top to 15 at the bottom.
 
 ```c
-  // ...
+  // GLSL
 
   vec3 left = texture(lookupTableTexture, vec2(u, v)).rgb;
 
@@ -120,7 +120,7 @@ Using the UV coordinates, sample a color from the lookup table.
 This is the nearest left block color.
 
 ```c
-  // ...
+  // GLSL
 
   u  =  ceil(color.b * 15.0) / 15.0 * 240.0;
   u  = (ceil(color.r * 15.0) / 15.0 *  15.0) + u;
@@ -141,7 +141,7 @@ Notice how `ceil` or ceiling is being used now instead of `floor`.
 </p>
 
 ```c
-  // ...
+  // GLSL
 
   color.r = mix(left.r, right.r, fract(color.r * 15.0));
   color.g = mix(left.g, right.g, fract(color.g * 15.0));
@@ -163,7 +163,7 @@ However,
 for `0.132` the mixture will be 98% right and 2% left since the fractional part of `0.123` times `15.0` is `0.98`.
 
 ```c
-  // ...
+  // GLSL
 
   fragColor = color;
 
@@ -175,6 +175,7 @@ Set the fragment color to the final mix and you're done.
 ### Source
 
 - [main.cxx](../demonstration/src/main.cxx)
+- [main.py](../demonstration/src/main.py)
 - [basic.vert](../demonstration/shaders/vertex/basic.vert)
 - [lookup-table.frag](../demonstration/shaders/fragment/lookup-table.frag)
 
