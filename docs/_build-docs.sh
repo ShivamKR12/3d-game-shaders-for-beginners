@@ -2,8 +2,8 @@
 
 SCRIPT_PATH="$(cd "$(dirname "$0")"; pwd -P)"
 MAIN_TITLE="3D Game Shaders For Beginners"
-REPO_URL="https://github.com/lettier/3d-game-shaders-for-beginners"
-AUTHOR="David Lettier"
+REPO_URL="https://github.com/ShivamKR12/3d-game-shaders-for-beginners"
+AUTHOR="Shivam Kumar"
 CSS="style.css"
 
 for f in $SCRIPT_PATH/../sections/*
@@ -20,7 +20,7 @@ do
   then
     title="GLSL"
   fi
-  $PANDOC \
+  pandoc \
     -f gfm \
     -t html5 \
     --highlight-style=breezedark \
@@ -32,7 +32,7 @@ do
     -o "$SCRIPT_PATH/$file_name.html"
 done
 
-$PANDOC \
+pandoc \
   -f gfm \
   -t html5 \
   --highlight-style=breezedark \
