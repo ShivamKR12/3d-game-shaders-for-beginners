@@ -99,7 +99,6 @@ depthBuffer.set_clear_color((0, 0, 0, 0))
 depthCameraNP = base.make_camera(depthBuffer)
 depthCameraNP.node().set_lens(base.camLens)
 ```
-```
 
 If you do decide to use the depth buffer, here's how you can set it up using Panda3D.
 
@@ -279,6 +278,32 @@ The more samples you use, the better the approximation at the cost of performanc
   // ...
 ```
 
+```python
+# Python
+
+import random
+from panda3d.core import LVecBase3f
+
+def lerp(a, b, f):
+    return a + f * (b - a)
+
+ssaoSamples = []
+for i in range(numberOfSamples):
+    sample = LVecBase3f(
+        random.uniform(-1, 1),
+        random.uniform(-1, 1),
+        random.random()
+    ).normalized()
+
+    rand_val = random.random()
+    sample *= rand_val
+
+    scale = i / numberOfSamples
+    scale = lerp(0.1, 1.0, scale * scale)
+    sample *= scale
+    ssaoSamples.append(sample)
+```
+
 The example code generates a number of random samples distributed in a hemisphere.
 These `ssaoSamples` will be sent to the SSAO shader.
 
@@ -291,13 +316,23 @@ These `ssaoSamples` will be sent to the SSAO shader.
         ).normalized();
 ```
 
+```python
+# Python
+
+sample = LVecBase3f(
+    random.uniform(-1, 1),
+    random.uniform(-1, 1),
+    random.uniform(-1, 1)
+).normalized()
+```
+
 If you'd like to distribute your samples in a sphere instead,
 change the random `z` component to range from negative one to one.
 
 ### Noise
 
-```c
-  // ...
+```cpp
+// C++
 
   for (int i = 0; i < numberOfNoise; ++i) {
     LVecBase3f noise =
@@ -309,8 +344,18 @@ change the random `z` component to range from negative one to one.
 
     ssaoNoise.push_back(noise);
   }
+```
 
-  // ...
+```python
+# Python
+
+import random
+from panda3d.core import LVecBase3f
+
+ssaoNoise = []
+for i in range(numberOfNoise):
+    noise = LVecBase3f(random.uniform(-1, 1), random.uniform(-1, 1), 0.0)
+    ssaoNoise.append(noise)
 ```
 
 To get a good sweep of the sampled area, you'll need to generate some noise vectors.
