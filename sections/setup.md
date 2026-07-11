@@ -49,17 +49,15 @@ The only color it contains is flat blue `(red = 128, green = 128, blue = 255)`.
 This color represents a unit (length one) normal pointing in the positive z-axis `(0, 0, 1)`.
 
 ```c
-(0, 0, 1) =
-  ( round((0 * 0.5 + 0.5) * 255)
-  , round((0 * 0.5 + 0.5) * 255)
-  , round((1 * 0.5 + 0.5) * 255)
-  ) =
-    (128, 128, 255) =
-      ( round(128 / 255 * 2 - 1)
-      , round(128 / 255 * 2 - 1)
-      , round(255 / 255 * 2 - 1)
-      ) =
-        (0, 0, 1)
+(0, 0, 1) = (round((0 * 0.5 + 0.5) * 255),
+             round((0 * 0.5 + 0.5) * 255),
+             round((1 * 0.5 + 0.5) * 255))
+          = (128, 128, 255)
+
+(128, 128, 255) = (round(128 / 255 * 2 - 1),
+                   round(128 / 255 * 2 - 1),
+                   round(255 / 255 * 2 - 1))
+                = (0, 0, 1)
 ```
 
 Here you see the unit normal `(0, 0, 1)`
