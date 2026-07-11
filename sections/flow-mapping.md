@@ -72,7 +72,7 @@ offset the UV coordinates of a another texture.
 </p>
 
 ```c
-  // GLSL
+  // ...
 
   vec2 flow = texture(flowTexture, diffuseCoord).xy;
        flow = (flow - 0.5) * 2;

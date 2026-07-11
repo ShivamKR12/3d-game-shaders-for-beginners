@@ -20,7 +20,7 @@ In terms of the shader graph, film grain is usually the last effect applied befo
 ### Amount
 
 ```c
-  // GLSL
+  // ...
 
   float amount = 0.1;
 
@@ -172,7 +172,7 @@ This is the reason the snippet multiplies `sin` by 10,000.
 ### Fragment Color
 
 ```c
-  // GLSL
+  // ...
 
   vec2 texSize  = textureSize(colorTexture, 0).xy;
   vec2 texCoord = gl_FragCoord.xy / texSize;
@@ -198,7 +198,7 @@ Using these UV coordinates, look up the texture color for this fragment.
 Adjust the amount by the random intensity and add this to the color.
 
 ```c
-  // GLSL
+  // ...
 
   fragColor = color;
 

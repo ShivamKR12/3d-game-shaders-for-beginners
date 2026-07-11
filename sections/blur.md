@@ -27,7 +27,7 @@ It's fast and gets the job done.
 If you need more finesse, you can upgrade to a Gaussian blur.
 
 ```c
-  // GLSL
+  // ...
 
   vec2 texSize  = textureSize(colorTexture, 0).xy;
   vec2 texCoord = gl_FragCoord.xy / texSize;
@@ -42,7 +42,7 @@ The `size` parameter controls how blurry the result is.
 If the `size` is zero or less, return the fragment untouched.
 
 ```c
-  // GLSL
+  // ...
 
   float separation = parameters.y;
         separation = max(separation, 1);
@@ -58,7 +58,7 @@ The `separation` parameter spreads out the blur without having to sample additio
 </p>
 
 ```c
-  // GLSL
+  // ...
 
   for (int i = -size; i <= size; ++i) {
     for (int j = -size; j <= size; ++j) {
@@ -75,7 +75,7 @@ The size of the window is `size * 2 + 1` by `size * 2 + 1`.
 So for example, with a `size` setting of two, the window uses `(2 * 2 + 1)^2 = 25` samples per fragment.
 
 ```c
-      // GLSL
+      // ...
 
       fragColor +=
         texture
@@ -94,7 +94,7 @@ start by loop through the window, adding up each color vector.
 
 
 ```c
-  // GLSL
+  // ...
 
   fragColor /= pow(size * 2 + 1, 2);
 
@@ -130,7 +130,7 @@ At lower quality approximations,
 you end up with a nice [painterly](https://en.wikipedia.org/wiki/Painterliness) look.
 
 ```c
-// GLSL
+// ...
 
 #define MAX_SIZE        4
 #define MAX_KERNEL_SIZE ((MAX_SIZE * 2 + 1) * (MAX_SIZE * 2 + 1))
@@ -143,7 +143,7 @@ These are the hard limits for the `size` parameter, window size, and `bins` arra
 
 
 ```c
-  // GLSL
+  // ...
 
   vec2 texSize  = textureSize(colorTexture, 0).xy;
   vec2 texCoord = gl_FragCoord.xy / texSize;
@@ -162,7 +162,7 @@ From the `size` parameter, calculate the total size of the kernel or window.
 This is how many samples you'll be taking per fragment.
 
 ```c
-  // GLSL
+  // ...
 
   int binsSize = int(parameters.y);
       binsSize = clamp(binsSize, 1, MAX_BINS_SIZE);
@@ -173,7 +173,7 @@ This is how many samples you'll be taking per fragment.
 Set up the `binsSize`, making sure to limit it by the `MAX_BINS_SIZE`.
 
 ```c
-  // GLSL
+  // ...
 
   int i        = 0;
   int j        = 0;
@@ -189,7 +189,7 @@ Set up the `binsSize`, making sure to limit it by the `MAX_BINS_SIZE`.
 `binIndex` is used to approximate the median color.
 
 ```c
-  // GLSL
+  // ...
 
   vec4  colors[MAX_KERNEL_SIZE];
   float bins[MAX_BINS_SIZE];
@@ -205,7 +205,7 @@ As `binsSize` approaches 100, the algorithm finds the true median almost always.
 `binIndexes` stores the `bins` index or which bin each sample falls into.
 
 ```c
-  // GLSL
+  // ...
 
   float total = 0;
   float limit = floor(float(kernelSize) / 2) + 1;
@@ -219,7 +219,7 @@ The `limit` is the median index.
 For example, if the window size is 81, `limit` is 41 which is directly in the middle (40 samples below and 40 samples above).
 
 ```c
-  // GLSL
+  // ...
 
   float value       = 0;
   vec3  valueRatios = vec3(0.3, 0.59, 0.11);
@@ -232,7 +232,7 @@ Instead of dividing red, green, and blue by one third,
 it uses 30% of red, 59% of green, and 11% of blue for a total of 100%.
 
 ```c
-  // GLSL
+  // ...
 
   for (i = -size; i <= size; ++i) {
     for (j = -size; j <= size; ++j) {
@@ -254,7 +254,7 @@ it uses 30% of red, 59% of green, and 11% of blue for a total of 100%.
 Loop through the window and collect the color samples into `colors`.
 
 ```c
-  // GLSL
+  // ...
 
   for (i = 0; i < binsSize; ++i) {
     bins[i] = 0;
@@ -266,7 +266,7 @@ Loop through the window and collect the color samples into `colors`.
 Initialize the `bins` array with zeros.
 
 ```c
-  // GLSL
+  // ...
 
   for (i = 0; i < kernelSize; ++i) {
     value           = dot(colors[i].rgb, valueRatios);
@@ -288,7 +288,7 @@ For example, if the number of bins is 10, the first bin covers everything from z
 Increment the number of colors that fall into this bin and remember the color sample's bin index so you can look it up later.
 
 ```c
-  // GLSL
+  // ...
 
   binIndex = 0;
 
@@ -307,7 +307,7 @@ Loop through the bins, tallying up the number of colors seen so far.
 When you reach the median index, exit the loop and remember the last `bins` index reached.
 
 ```c
-  // GLSL
+  // ...
 
   fragColor = colors[0];
 
@@ -337,7 +337,7 @@ In practice,
 the Kuwahara filter runs faster than the median filter, allowing for larger `size` values without a noticeable slowdown.
 
 ```c
-// GLSL
+// ...
 
 #define MAX_SIZE        5
 #define MAX_KERNEL_SIZE ((MAX_SIZE * 2 + 1) * (MAX_SIZE * 2 + 1))
@@ -348,7 +348,7 @@ the Kuwahara filter runs faster than the median filter, allowing for larger `siz
 Set a hard limit for the `size` parameter and the number of samples taken.
 
 ```c
-// GLSL
+// ...
 
 int i     = 0;
 int j     = 0;
@@ -360,7 +360,7 @@ int count = 0;
 These are used to sample the input texture and set up the `values` array.
 
 ```c
-// GLSL
+// ...
 
 vec3  valueRatios = vec3(0.3, 0.59, 0.11);
 
@@ -370,7 +370,7 @@ vec3  valueRatios = vec3(0.3, 0.59, 0.11);
 Like the median filter, you'll be converting the color samples into greyscale values.
 
 ```c
-// GLSL
+// ...
 
 float values[MAX_KERNEL_SIZE];
 
@@ -381,7 +381,7 @@ Initialize the `values` array.
 This will hold the greyscale values for the color samples.
 
 ```c
-// GLSL
+// ...
 
 vec4  color       = vec4(0);
 vec4  meanTemp    = vec4(0);
@@ -396,7 +396,7 @@ float minVariance = -1;
 The Kuwahara filter works by computing the variance of four subwindows and then using the mean of the subwindow with the smallest variance.
 
 ```c
-// GLSL
+// ...
 
 void findMean(int i0, int i1, int j0, int j1) {
 
@@ -407,7 +407,7 @@ void findMean(int i0, int i1, int j0, int j1) {
 Each run of `findMean` will remember the mean of the given subwindow that has the lowest variance seen so far.
 
 ```c
-  // GLSL
+  // ...
 
   meanTemp = vec4(0);
   count    = 0;
@@ -418,7 +418,7 @@ Each run of `findMean` will remember the mean of the given subwindow that has th
 Make sure to reset `count` and `meanTemp` before computing the mean of the given subwindow.
 
 ```c
-  // GLSL
+  // ...
 
   for (i = i0; i <= i1; ++i) {
     for (j = j0; j <= j1; ++j) {
@@ -444,7 +444,7 @@ Similar to the box blur, loop through the given subwindow and add up each color.
 At the same time, make sure to store the greyscale value for this sample in `values`.
 
 ```c
-  // GLSL
+  // ...
 
   meanTemp.rgb /= count;
   valueMean     = dot(meanTemp.rgb, valueRatios);
@@ -456,7 +456,7 @@ To compute the mean, divide the samples sum by the number of samples taken.
 Calculate the greyscale value for the mean.
 
 ```c
-  // GLSL
+  // ...
 
   for (i = 0; i < count; ++i) {
     variance += pow(values[i] - valueMean, 2);
@@ -471,7 +471,7 @@ Now calculate the variance for this given subwindow.
 The variance is the average squared difference between each sample's greyscale value the mean greyscale value.
 
 ```c
-  // GLSL
+  // ...
 
   if (variance < minVariance || minVariance <= -1) {
     mean = meanTemp;
@@ -486,7 +486,7 @@ If the variance is smaller than what you've seen before or this is the first var
 set the mean of this subwindow as the final mean and update the minimum variance seen so far.
 
 ```c
-// GLSL
+// ...
 
 void main() {
   int size = int(parameters.x);
@@ -502,7 +502,7 @@ If the size is at or below zero, return the fragment unchanged.
 <img src="https://i.imgur.com/iuLbLKO.gif" alt="Kuwahara Kernal" title="Kuwahara Kernal">
 </p>
 ```c
-  // GLSL
+  // ...
 
   // Lower Left
 
@@ -529,7 +529,7 @@ and then using the mean of the subwindow with the lowest variance as the final f
 Note that the four subwindows overlap each other.
 
 ```c
-  // GLSL
+  // ...
 
   mean.a    = 1;
   fragColor = mean;

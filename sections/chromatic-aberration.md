@@ -18,7 +18,7 @@ Use it to give your scene a cinematic, lo-fi analog feel or to emphasize a chaot
 ### Texture
 
 ```c
-// GLSL
+// ...
 
 // ...
 ```
@@ -32,7 +32,7 @@ The input texture needed is the scene's colors captured into a framebuffer textu
 </p>
 
 ```c
-  // GLSL
+  // ...
 
   float redOffset   =  0.009;
   float greenOffset =  0.006;

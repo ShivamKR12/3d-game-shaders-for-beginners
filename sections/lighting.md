@@ -54,7 +54,7 @@ struct which is available to both the vertex and fragment shaders.
 The biggest convenience being the shadow map and shadow view matrix for transforming vertexes to shadow or light space.
 
 ```c
-  // GLSL
+  // ...
 
   vertexPosition = p3d_ModelViewMatrix * p3d_Vertex;
 
@@ -98,7 +98,7 @@ Panda3D gives us the material (in the form of a struct) for the mesh or model yo
 #### Multiple Lights
 
 ```c
-  // GLSL
+  // ...
 
   vec4 diffuse  = vec4(0.0, 0.0, 0.0, diffuseTex.a);
   vec4 specular = vec4(0.0, 0.0, 0.0, diffuseTex.a);
@@ -109,7 +109,7 @@ Panda3D gives us the material (in the form of a struct) for the mesh or model yo
 Before you loop through the scene's lights, create an accumulator for both the diffuse and specular colors.
 
 ```c
-  // GLSL
+  // ...
 
   for (int i = 0; i < p3d_LightSource.length(); ++i) {
     // ...
@@ -152,7 +152,7 @@ the light direction will be the negative or opposite direction of the light as P
 `p3d_LightSource[i].position.xyz` to be `-direction` for directional lights.
 
 ```c
-  // GLSL
+  // ...
 
   normal = normalize(vertexNormal);
 
@@ -484,7 +484,7 @@ When you reach [SSAO](ssao.md), you'll revisit the ambient color calculation.
 #### Putting It All Together
 
 ```c
-  // GLSL
+  // ...
 
   vec4 outputColor = ambient + diffuse + specular + p3d_Material.emission;
 

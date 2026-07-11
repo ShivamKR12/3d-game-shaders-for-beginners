@@ -33,7 +33,7 @@ These parameters control the look and feel.
 And the last parameter, `amount`, controls how much bloom is outputted.
 
 ```c
-  // GLSL
+  // ...
 
   vec2 texSize = textureSize(colorTexture, 0).xy;
 
@@ -58,7 +58,7 @@ The size of the window is `size * 2 + 1` by `size * 2 + 1`.
 So for example, with a `size` setting of two, the window uses `(2 * 2 + 1)^2 = 25` samples per fragment.
 
 ```c
-      // GLSL
+      // ...
 
       color =
         texture
@@ -84,7 +84,7 @@ If this greyscale value is less than the threshold, it discards this color by ma
 After evaluating the sample's greyscale value, it adds its RGB values to `result`.
 
 ```c
-  // GLSL
+  // ...
 
   result /= count;
 

@@ -120,7 +120,7 @@ For example, if a particular interpolated vertex position is `<-139.444444566, 0
 you don't want it stored into the texture as `<0.0, 0.0, 1.0>`.
 
 ```c
-  // GLSL
+  // ...
 
   FrameBufferProperties fbp = FrameBufferProperties::get_default();
 
@@ -297,7 +297,7 @@ change the random `z` component to range from negative one to one.
 ### Noise
 
 ```c
-  // GLSL
+  // ...
 
   for (int i = 0; i < numberOfNoise; ++i) {
     LVecBase3f noise =
@@ -336,7 +336,7 @@ If the sample is farther away from the camera than the position, the sample coun
 Here you see the space above the surface being sampled for occlusion.
 
 ```c
-  // GLSL
+  // ...
 
   float radius    = 1;
   float bias      = 0.01;
@@ -355,7 +355,7 @@ The `magnitude` either lightens or darkens the occlusion map.
 The `contrast` either washes out or increases the starkness of the occlusion map.
 
 ```c
-  // GLSL
+  // ...
 
   vec4 position =           texture(positionTexture, texCoord);
   vec3 normal   = normalize(texture(normalTexture,   texCoord).xyz);
@@ -372,7 +372,7 @@ Recall that the example code created a set number of random vectors.
 The random vector is chosen based on the current fragment's screen position.
 
 ```c
-  // GLSL
+  // ...
 
   vec3 tangent  = normalize(random - normal * dot(random, normal));
   vec3 binormal = cross(normal, tangent);
@@ -385,7 +385,7 @@ Using the random and normal vectors, assemble the tangent, binormal, and normal 
 You'll need this matrix to transform the sample vectors from tangent space to view space.
 
 ```c
-  // GLSL
+  // ...
 
   float occlusion = NUM_SAMPLES;
 
@@ -510,7 +510,7 @@ For the best results, use a median or Kuwahara filter to preserve the sharp edge
 ### Ambient Color
 
 ```c
-  // GLSL
+  // ...
 
   vec2 ssaoBlurTexSize  = textureSize(ssaoBlurTexture, 0).xy;
   vec2 ssaoBlurTexCoord = gl_FragCoord.xy / ssaoBlurTexSize;

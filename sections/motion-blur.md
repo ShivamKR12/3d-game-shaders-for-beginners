@@ -76,7 +76,7 @@ Increasing `separation` increases the amount of blur at the cost of accuracy.
 ### Blur Direction
 
 ```c
-  // GLSL
+  // ...
 
   vec2 texSize  = textureSize(colorTexture, 0).xy;
   vec2 texCoord = gl_FragCoord.xy / texSize;
@@ -102,7 +102,7 @@ This transformed position is this fragment's previous interpolated vertex positi
 </p>
 
 ```c
-  // GLSL
+  // ...
 
   position0      = lensProjection * position0;
   position0.xyz /= position0.w;
@@ -121,7 +121,7 @@ With the positions in screen space,
 you can trace out the 2D direction you'll need to blur the onscreen image.
 
 ```c
-  // GLSL
+  // ...
 
   //   position1.xy = position0.xy + direction;
   vec2 direction    = position1.xy - position0.xy;
@@ -136,7 +136,7 @@ The blur direction goes from the previous position to the current position.
 ### Blurring
 
 ```c
-  // GLSL
+  // ...
 
   fragColor = texture(colorTexture, texCoord);
 
@@ -147,7 +147,7 @@ Sample the current fragment's color.
 This will be the first of the colors blurred together.
 
 ```c
-  // GLSL
+  // ...
 
   direction.xy *= separation;
 
@@ -157,7 +157,7 @@ This will be the first of the colors blurred together.
 Multiply the direction vector by the separation.
 
 ```c
-  // GLSL
+  // ...
 
   vec2  forward  = texCoord;
   vec2  backward = texCoord;
@@ -170,7 +170,7 @@ sample in the direction of the blur and in the opposite direction of the blur.
 For now, set the two vectors to the fragment's UV coordinate.
 
 ```c
-  // GLSL
+  // ...
 
   float count = 1.0;
 
@@ -181,7 +181,7 @@ For now, set the two vectors to the fragment's UV coordinate.
 It starts at one since you've already sampled the current fragment's color.
 
 ```c
-  // GLSL
+  // ...
 
   for (int i = 0; i < size; ++i) {
     forward  += direction;
@@ -208,7 +208,7 @@ Sample the screen's colors both in the forward and backward direction of the blu
 Be sure to add these samples together as you travel along.
 
 ```c
-  // GLSL
+  // ...
 
   fragColor /= count;
 }

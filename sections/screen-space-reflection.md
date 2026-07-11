@@ -149,7 +149,7 @@ uniform sampler2D normalTexture;
 You'll need the camera lens' projection matrix as well as the interpolated vertex positions and normals in view space.
 
 ```c
-  // GLSL
+  // ...
 
   float maxDistance = 15;
   float resolution  = 0.3;
@@ -198,7 +198,7 @@ Going in the other direction, as the thickness gets smaller,
 the reflections become noisy with tiny little holes and narrow gaps.
 
 ```c
-  // GLSL
+  // ...
 
   vec2 texSize  = textureSize(positionTexture, 0).xy;
   vec2 texCoord = gl_FragCoord.xy / texSize;
@@ -219,7 +219,7 @@ It currently has a length or magnitude of one.
 
 
 ```c
-  // GLSL
+  // ...
 
   vec4 startView = vec4(positionFrom.xyz + (pivot *           0), 1);
   vec4 endView   = vec4(positionFrom.xyz + (pivot * maxDistance), 1);
@@ -230,7 +230,7 @@ It currently has a length or magnitude of one.
 Calculate the start and end point of the reflection ray in view space.
 
 ```c
-  // GLSL
+  // ...
 
   vec4 startFrag      = startView;
        // Project to screen space.
@@ -271,7 +271,7 @@ so it is inefficient to potentially sample the same pixels over and over again w
 By marching in screen space, you'll more efficiently sample the fragments or pixels the ray actually occupies or covers.
 
 ```c
-  // GLSL
+  // ...
 
   vec2 frag  = startFrag.xy;
        uv.xy = frag / texSize;
@@ -283,7 +283,7 @@ The first pass will begin at the starting fragment position of the reflection ra
 Convert the fragment position to a UV coordinate by dividing the fragment's coordinates by the position texture's dimensions.
 
 ```c
-  // GLSL
+  // ...
 
   float deltaX    = endFrag.x - startFrag.x;
   float deltaY    = endFrag.y - startFrag.y;
@@ -299,7 +299,7 @@ This will be how many pixels the ray line occupies in the X and Y dimension of t
 </p>
 
 ```c
-  // GLSL
+  // ...
 
   float useX      = abs(deltaX) >= abs(deltaY) ? 1 : 0;
   float delta     = mix(abs(deltaY), abs(deltaX), useX) * clamp(resolution, 0, 1);
@@ -320,7 +320,7 @@ It is used to pick the X or Y dimension depending on which delta is bigger.
 It is used to determine how much to march in either dimension each iteration and how many iterations to take during the first pass.
 
 ```c
-  // GLSL
+  // ...
 
   vec2  increment = vec2(deltaX, deltaY) / max(delta, 0.001);
 
@@ -354,7 +354,7 @@ The larger dimension will increment by two fragments instead of one.
 
 
 ```c
-  // GLSL
+  // ...
 
   float search0 = 0;
   float search1 = 0;
@@ -378,7 +378,7 @@ For any other value, the current position is somewhere between the start and end
 The algorithm will later use `search0` in the second pass to help refine the point at which the ray touches the scene's geometry.
 
 ```c
-  // GLSL
+  // ...
 
   int hit0 = 0;
   int hit1 = 0;
@@ -390,7 +390,7 @@ The algorithm will later use `search0` in the second pass to help refine the poi
 `hit1` indicates there was an intersection during the second pass.
 
 ```c
-  // GLSL
+  // ...
 
   float viewDistance = startView.y;
   float depth        = thickness;
@@ -412,7 +412,7 @@ It tells you how far behind or in front of the scene the ray currently is.
 Remember that the scene positions are the interpolated vertex positions stored in the position framebuffer texture.
 
 ```c
-  // GLSL
+  // ...
 
   for (i = 0; i < int(delta); ++i) {
 
@@ -523,7 +523,7 @@ Set `search0` to equal `search1` to remember this position as the last known mis
 Continue marching the ray towards the end fragment.
 
 ```c
-  // GLSL
+  // ...
 
   search1 = search0 + ((search1 - search0) / 2);
 
@@ -534,7 +534,7 @@ At this point you have finished the first pass.
 Set the `search1` position to be halfway between the position of the last miss and the position of the last hit.
 
 ```c
-  // GLSL
+  // ...
 
   steps *= hit0;
 
@@ -594,7 +594,7 @@ Move `search0` to this current miss position.
 Continue this back and forth search while `i` is less than `steps`.
 
 ```c
-  // GLSL
+  // ...
 
   float visibility =
       hit1
@@ -608,7 +608,7 @@ The `visibility` ranges from zero to one.
 If there wasn't a hit in the second pass, the `visibility` is zero.
 
 ```c
-  // GLSL
+  // ...
 
     * positionTo.w
 
@@ -624,7 +624,7 @@ Note that if `w` is zero, there was no scene position at that point.
 </p>
 
 ```c
-  // GLSL
+  // ...
 
     * ( 1
       - max
@@ -651,7 +651,7 @@ Remember to normalize both vectors when taking the dot product.
 It has a length or magnitude of one.
 
 ```c
-  // GLSL
+  // ...
 
     * ( 1
       - clamp
@@ -670,7 +670,7 @@ Unfortunately, you may not find this particular point.
 Fade out the reflection the further it is from the intersection point you did find.
 
 ```c
-  // GLSL
+  // ...
 
     * ( 1
       - clamp
@@ -693,7 +693,7 @@ This will fade out the reflection instead of it ending abruptly as it reaches `m
 
 
 ```c
-  // GLSL
+  // ...
 
     * (uv.x < 0 || uv.x > 1 ? 0 : 1)
     * (uv.y < 0 || uv.y > 1 ? 0 : 1);
@@ -713,7 +713,7 @@ This occurs when the reflection ray travels outside the camera's frustum.
 Set the blue and alpha component to the visibility as the UV coordinates only need the RG or XY components of the final vector.
 
 ```c
-  // GLSL
+  // ...
 
   fragColor = uv;
 
@@ -799,7 +799,7 @@ Once you have the reflected UV coordinates, looking up the reflected colors is f
 You'll need the reflected UV coordinates texture and the color texture containing the colors you wish to reflect.
 
 ```c
-  // GLSL
+  // ...
 
   vec2 texSize  = textureSize(uvTexture, 0).xy;
   vec2 texCoord = gl_FragCoord.xy / texSize;
@@ -813,7 +813,7 @@ You'll need the reflected UV coordinates texture and the color texture containin
 Using the UV coordinates for the current fragment, look up the reflected color.
 
 ```c
-  // GLSL
+  // ...
 
   float alpha = clamp(uv.b, 0, 1);
 
@@ -824,7 +824,7 @@ Recall that the reflected UV texture stored the visibility in the B or blue comp
 This is the alpha channel for the reflected colors framebuffer texture.
 
 ```c
-  // GLSL
+  // ...
 
   fragColor = vec4(mix(vec3(0), color.rgb, alpha), alpha);
 
@@ -864,7 +864,7 @@ To generate the final reflections, you'll need the three framebuffer textures co
 You'll need the reflected colors, the blurred reflected colors, and the specular map.
 
 ```c
-  // GLSL
+  // ...
 
   vec4 specular  = texture(specularTexture,  texCoord);
   vec4 color     = texture(colorTexture,     texCoord);
@@ -876,7 +876,7 @@ You'll need the reflected colors, the blurred reflected colors, and the specular
 Look up the specular amount and shininess, the reflected scene color, and the blurred reflected scene color.
 
 ```c
-  // GLSL
+  // ...
 
   float specularAmount = dot(specular.rgb, vec3(1)) / 3;
 
@@ -899,7 +899,7 @@ simply by brightening or darkening the greyscale value in the specular map.
 Using the dot product to produce the greyscale value is just a short way of summing the three color components.
 
 ```c
-  // GLSL
+  // ...
 
   float roughness = 1 - min(specular.a, 1);
 
@@ -923,7 +923,7 @@ The more translucent/transparent the greyscale value, the more the shader will u
 The scratched tiles will have a blurry reflection while the polished tiles will have a mirror like reflection.
 
 ```c
-  // GLSL
+  // ...
 
   fragColor = mix(color, colorBlur, roughness) * specularAmount;
 

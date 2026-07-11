@@ -17,7 +17,7 @@ possibly save you time by not having to create all of the pixel art by hand.
 Combine it with the posterization for a true retro look.
 
 ```c
-  // GLSL
+  // ...
 
   int pixelSize = 5;
 
@@ -32,7 +32,7 @@ The bigger the pixel size, the blockier the image will be.
 </p>
 
 ```c
-  // GLSL
+  // ...
 
   float x = int(gl_FragCoord.x) % pixelSize;
   float y = int(gl_FragCoord.y) % pixelSize;

@@ -25,7 +25,7 @@ This new RGB value becomes the fragment color.
 I find this method produces nicer results than the more typical methods you'll find.
 
 ```c
-  // GLSL
+  // ...
 
   float levels = 10;
 
@@ -38,7 +38,7 @@ With four levels, `0.0` to `1.0` becomes `0.0`, `0.25`, `0.5`, `0.75`, and `1.0`
 
 
 ```c
-  // GLSL
+  // ...
 
   fragColor = texture(posterizeTexture, texCoord);
 
@@ -48,7 +48,7 @@ With four levels, `0.0` to `1.0` becomes `0.0`, `0.25`, `0.5`, `0.75`, and `1.0`
 Sample the current fragment's color.
 
 ```c
-  // GLSL
+  // ...
 
   float greyscale = max(fragColor.r, max(fragColor.g, fragColor.b));
 
@@ -59,7 +59,7 @@ Map the RGB values to a greyscale value.
 In this instance, the greyscale value is the maximum value of the R, G, and B values.
 
 ```c
-  // GLSL
+  // ...
 
   float lower     = floor(greyscale * levels) / levels;
   float lowerDiff = abs(greyscale - lower);
@@ -74,7 +74,7 @@ if the greyscale value is `0.87` and there are four levels, its lower level is `
 
 
 ```c
-  // GLSL
+  // ...
 
   float upper     = ceil(greyscale * levels) / levels;
   float upperDiff = abs(upper - greyscale);
@@ -86,7 +86,7 @@ Now calculate the upper level and the difference.
 Keeping with the example up above, the upper level is `1.0` and the difference is `0.13`.
 
 ```c
-  // GLSL
+  // ...
 
   float level      = lowerDiff <= upperDiff ? lower : upper;
   float adjustment = level / greyscale;
@@ -100,7 +100,7 @@ This adjustment is used to map the quantized greyscale value back to an RGB valu
 
 
 ```c
-  // GLSL
+  // ...
 
   fragColor.rgb * adjustment;
 

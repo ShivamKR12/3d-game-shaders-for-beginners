@@ -41,7 +41,7 @@ See [dilation](dilation.md) for more details.
 ### Mixing
 
 ```c
-  // GLSL
+  // ...
 
   float minDistance = 1.0;
   float maxDistance = 3.0;
@@ -54,7 +54,7 @@ All positions at or below `minDistance` will be completely in focus.
 All positions at or beyond `maxDistance` will be completely out of focus.
 
 ```c
-  // GLSL
+  // ...
 
   vec4 focusColor      = texture(focusTexture, texCoord);
   vec4 outOfFocusColor = texture(outOfFocusTexture, texCoord);
@@ -65,7 +65,7 @@ All positions at or beyond `maxDistance` will be completely out of focus.
 You'll need the in focus and out of focus colors.
 
 ```c
-  // GLSL
+  // ...
 
   vec4 position = texture(positionTexture, texCoord);
 
@@ -76,7 +76,7 @@ You'll also need the vertex position in view space.
 You can reuse the position framebuffer texture you used for [SSAO](ssao.md#vertex-positions).
 
 ```c
-  // GLSL
+  // ...
 
   vec4 focusPoint = texture(positionTexture, mouseFocusPoint);
 
@@ -95,7 +95,7 @@ However, it could be a constant distance from the camera or a static position.
 </p>
 
 ```c
-  // GLSL
+  // ...
 
   float blur =
     smoothstep
@@ -117,7 +117,7 @@ blur will be between zero and one.
 These values are interpolated along a s-shaped curve.
 
 ```c
-  // GLSL
+  // ...
   // ...
 
   fragColor = mix(focusColor, outOfFocusColor, blur);

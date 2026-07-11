@@ -124,7 +124,7 @@ in vec2 normalCoord;
 Using the normal map coordinates the vertex shader sent, pull out the normal from the normal map.
 
 ```c
-  // GLSL
+  // ...
 
   vec3 normal;
 

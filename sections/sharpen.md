@@ -16,7 +16,7 @@ The sharpen effect increases the contrast at the edges of the image.
 This comes in handy when your graphics are bit too soft.
 
 ```c
-  // GLSL
+  // ...
 
   float amount = 0.8;
 
@@ -28,7 +28,7 @@ An amount of zero leaves the image untouched.
 Try negative values for an odd look.
 
 ```c
-  // GLSL
+  // ...
 
   float neighbor = amount * -1;
   float center   = amount * 4 + 1;
@@ -40,7 +40,7 @@ Neighboring fragments are multiplied by `amount * -1`.
 The current fragment is multiplied by `amount * 4 + 1`.
 
 ```c
-  // GLSL
+  // ...
 
   vec3 color =
         texture(sharpenTexture, vec2(gl_FragCoord.x + 0, gl_FragCoord.y + 1) / texSize).rgb

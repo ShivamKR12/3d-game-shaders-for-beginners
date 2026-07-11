@@ -53,7 +53,7 @@ In addition to the fog's attributes, you'll also need the fragment's vertex `pos
 `fogMin` controls how much of the fog is still visible when the fog is least intense.
 
 ```c
-  // GLSL
+  // ...
 
   float near = nearFar.x;
   float far  = nearFar.y;
@@ -77,7 +77,7 @@ As the vertex `position` gets closer to the end of the fog's `far` distance, the
 For any vertexes after the end of the fog, the `intensity` is clamped to `fogMax`.
 
 ```c
-  // GLSL
+  // ...
 
   fragColor = vec4(color.rgb, intensity);
 

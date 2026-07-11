@@ -19,7 +19,7 @@ versus the spherical specular reflections produced by the Phong model.
 In certain cases, Blinn-Phong can be more efficient to calculate than Phong.
 
 ```c
-  // GLSL
+  // ...
 
   vec3 light   = normal(lightPosition.xyz - vertexPosition.xyz);
   vec3 eye     = normalize(-vertexPosition.xyz);
@@ -37,7 +37,7 @@ This vector is between the view/camera/eye and light direction vector.
 </p>
 
 ```c
-    // GLSL
+    // ...
 
     float specularIntensity = dot(normal, halfway);
 
