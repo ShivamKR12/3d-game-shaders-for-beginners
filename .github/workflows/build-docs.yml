@@ -11,6 +11,9 @@ on:
       - 'docs/style.css'
       - 'docs/_build-docs.sh'
 
+permissions:
+  contents: write
+
 jobs:
   build-docs:
     runs-on: ubuntu-latest
