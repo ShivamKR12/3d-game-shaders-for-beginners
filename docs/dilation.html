@@ -116,7 +116,7 @@ the same time, contracts or shrinks the darker areas of an image. This
 tends to create a pillowy look. You can use dilation for a glow/bloom
 effect or to add bokeh to your <a href="depth-of-field.html">depth of
 field</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span>   size         <span class="op">=</span> <span class="dt">int</span><span class="op">(</span>parameters<span class="op">.</span>x<span class="op">);</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> separation   <span class="op">=</span>     parameters<span class="op">.</span>y<span class="op">;</span></span>
@@ -130,7 +130,7 @@ the dilation at the cost of performance. A larger
 <code>separation</code> will increase the dilation at the cost of
 quality. The <code>minThreshold</code> and <code>maxThreshold</code>
 parameters control which parts of the image become dilated.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  vec2 texSize   <span class="op">=</span> textureSize<span class="op">(</span>colorTexture<span class="op">,</span> <span class="dv">0</span><span class="op">).</span>xy<span class="op">;</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  vec2 fragCoord <span class="op">=</span> gl_FragCoord<span class="op">.</span>xy<span class="op">;</span></span>
@@ -139,7 +139,7 @@ parameters control which parts of the image become dilated.</p>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
 <p>Sample the color at the current fragment's position.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span>  mx <span class="op">=</span> <span class="dv">0</span><span class="er">.0</span><span class="op">;</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  vec4  cmx <span class="op">=</span> fragColor<span class="op">;</span></span>
@@ -204,7 +204,7 @@ the desired shape.</p>
 <p>If the sampled greyscale value is larger than the current maximum
 greyscale value, update the maximum greyscale value and its
 corresponding color.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  fragColor<span class="op">.</span>rgb <span class="op">=</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    mix</span>

@@ -161,7 +161,7 @@ controls how spread out the samples are along the blur direction.
 Increasing <code>separation</code> increases the amount of blur at the
 cost of accuracy.</p>
 <h3 id="blur-direction">Blur Direction</h3>
-<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  vec2 texSize  <span class="op">=</span> textureSize<span class="op">(</span>colorTexture<span class="op">,</span> <span class="dv">0</span><span class="op">).</span>xy<span class="op">;</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  vec2 texCoord <span class="op">=</span> gl_FragCoord<span class="op">.</span>xy <span class="op">/</span> texSize<span class="op">;</span></span>
@@ -182,7 +182,7 @@ fragment's previous interpolated vertex position.</p>
 <img src="https://i.imgur.com/oQqdxM9.gif" alt="Position Projection" title="Position Projection">
 </p>
 
-<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  position0      <span class="op">=</span> lensProjection <span class="op">*</span> position0<span class="op">;</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  position0<span class="op">.</span>xyz <span class="op">/=</span> position0<span class="op">.</span>w<span class="op">;</span></span>
@@ -196,7 +196,7 @@ fragment's previous interpolated vertex position.</p>
 <p>Now that you have the current and previous positions, transform them
 to screen space. With the positions in screen space, you can trace out
 the 2D direction you'll need to blur the onscreen image.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">//   position1.xy = position0.xy + direction;</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  vec2 direction    <span class="op">=</span> position1<span class="op">.</span>xy <span class="op">-</span> position0<span class="op">.</span>xy<span class="op">;</span></span>
@@ -207,20 +207,20 @@ the 2D direction you'll need to blur the onscreen image.</p>
 <p>The blur direction goes from the previous position to the current
 position.</p>
 <h3 id="blurring">Blurring</h3>
-<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  fragColor <span class="op">=</span> texture<span class="op">(</span>colorTexture<span class="op">,</span> texCoord<span class="op">);</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
 <p>Sample the current fragment's color. This will be the first of the
 colors blurred together.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  direction<span class="op">.</span>xy <span class="op">*=</span> separation<span class="op">;</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
 <p>Multiply the direction vector by the separation.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  vec2  forward  <span class="op">=</span> texCoord<span class="op">;</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  vec2  backward <span class="op">=</span> texCoord<span class="op">;</span></span>
@@ -229,7 +229,7 @@ colors blurred together.</p>
 <p>For a more seamless blur, sample in the direction of the blur and in
 the opposite direction of the blur. For now, set the two vectors to the
 fragment's UV coordinate.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> count <span class="op">=</span> <span class="fl">1.0</span><span class="op">;</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -237,7 +237,7 @@ fragment's UV coordinate.</p>
 <p><code>count</code> is used to average all of the samples taken. It
 starts at one since you've already sampled the current fragment's
 color.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb11"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> size<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    forward  <span class="op">+=</span> direction<span class="op">;</span></span>
@@ -261,7 +261,7 @@ color.</p>
 <p>Sample the screen's colors both in the forward and backward direction
 of the blur. Be sure to add these samples together as you travel
 along.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb12"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  fragColor <span class="op">/=</span> count<span class="op">;</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>

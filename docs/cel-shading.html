@@ -119,7 +119,7 @@ goes from fully lit to fully shadowed. When combined with <a
 href="outlining.html">outlining</a>, cel shading can really sell the 2D
 cartoon look.</p>
 <h2 id="diffuse">Diffuse</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ...</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> diffuseIntensity <span class="op">=</span> max<span class="op">(</span>dot<span class="op">(</span>normal<span class="op">,</span> unitLightDirection<span class="op">),</span> <span class="dv">0</span><span class="er">.0</span><span class="op">);</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>          diffuseIntensity <span class="op">=</span> step<span class="op">(</span><span class="dv">0</span><span class="er">.1</span><span class="op">,</span> diffuseIntensity<span class="op">);</span></span>
@@ -138,7 +138,7 @@ the edge and one otherwise.</p>
 <img src="https://i.imgur.com/EI6QJ60.png" alt="Steps Function" title="Steps Function">
 </p>
 
-<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>      <span class="op">(</span>diffuseIntensity <span class="op">&gt;=</span> <span class="dv">0</span><span class="er">.8</span><span class="op">)</span> <span class="op">{</span> diffuseIntensity <span class="op">=</span> <span class="fl">1.0</span><span class="op">;</span> <span class="op">}</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>diffuseIntensity <span class="op">&gt;=</span> <span class="dv">0</span><span class="er">.6</span><span class="op">)</span> <span class="op">{</span> diffuseIntensity <span class="op">=</span> <span class="dv">0</span><span class="er">.6</span><span class="op">;</span> <span class="op">}</span></span>
@@ -152,7 +152,7 @@ something like the above.</p>
 <img src="https://i.imgur.com/7KK65mi.png" alt="Step Texture" title="Step Texture">
 </p>
 
-<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  diffuseIntensity <span class="op">=</span> texture<span class="op">(</span>steps<span class="op">,</span> vec2<span class="op">(</span>diffuseIntensity<span class="op">,</span> <span class="dv">0</span><span class="er">.0</span><span class="op">)).</span>r<span class="op">;</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -162,7 +162,7 @@ transitions going from darker to lighter. Using the
 <code>diffuseIntensity</code> as a U coordinate, it will automatically
 transform itself.</p>
 <h2 id="specular">Specular</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ...</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>      <span class="co">// ...</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">float</span> specularIntensity <span class="op">=</span> clamp<span class="op">(</span>dot<span class="op">(</span>normal<span class="op">,</span> halfwayDirection<span class="op">),</span> <span class="dv">0</span><span class="er">.0</span><span class="op">,</span> <span class="fl">1.0</span><span class="op">);</span></span>

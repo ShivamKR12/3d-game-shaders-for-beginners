@@ -134,7 +134,7 @@ shader.</p>
 that as the out of focus input. See <a href="dilation.html">dilation</a>
 for more details.</p>
 <h3 id="mixing">Mixing</h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> minDistance <span class="op">=</span> <span class="fl">1.0</span><span class="op">;</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> maxDistance <span class="op">=</span> <span class="fl">3.0</span><span class="op">;</span></span>
@@ -143,14 +143,14 @@ for more details.</p>
 <p>Feel free to tweak these two parameters. All positions at or below
 <code>minDistance</code> will be completely in focus. All positions at
 or beyond <code>maxDistance</code> will be completely out of focus.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  vec4 focusColor      <span class="op">=</span> texture<span class="op">(</span>focusTexture<span class="op">,</span> texCoord<span class="op">);</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  vec4 outOfFocusColor <span class="op">=</span> texture<span class="op">(</span>outOfFocusTexture<span class="op">,</span> texCoord<span class="op">);</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
 <p>You'll need the in focus and out of focus colors.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  vec4 position <span class="op">=</span> texture<span class="op">(</span>positionTexture<span class="op">,</span> texCoord<span class="op">);</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -158,7 +158,7 @@ or beyond <code>maxDistance</code> will be completely out of focus.</p>
 <p>You'll also need the vertex position in view space. You can reuse the
 position framebuffer texture you used for <a
 href="ssao.html#vertex-positions">SSAO</a>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  vec4 focusPoint <span class="op">=</span> texture<span class="op">(</span>positionTexture<span class="op">,</span> mouseFocusPoint<span class="op">);</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -173,7 +173,7 @@ position.</p>
 <img src="https://i.imgur.com/idDZr62.png" alt="smoothstep" title="smoothstep">
 </p>
 
-<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> blur <span class="op">=</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    smoothstep</span>
@@ -191,7 +191,7 @@ position greater than the maximum distance, from the focus point, will
 be out of focus or have a blur or one. For distances between the edges,
 blur will be between zero and one. These values are interpolated along a
 s-shaped curve.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  fragColor <span class="op">=</span> mix<span class="op">(</span>focusColor<span class="op">,</span> outOfFocusColor<span class="op">,</span> blur<span class="op">);</span></span>

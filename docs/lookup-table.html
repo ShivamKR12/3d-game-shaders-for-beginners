@@ -142,7 +142,7 @@ with the screenshot. As you manipulate the colors of the screenshot, the
 LUT will be altered in the same way. When you're done editing, select
 only the LUT and save it as a new image. You now have your new lookup
 table and can begin writing your shader.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  vec2 texSize <span class="op">=</span> textureSize<span class="op">(</span>colorTexture<span class="op">,</span> <span class="dv">0</span><span class="op">).</span>xy<span class="op">;</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -151,7 +151,7 @@ table and can begin writing your shader.</p>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
 <p>The LUT shader is a screen space technique. Therefore, sample the
 scene's color at the current fragment or screen position.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> u  <span class="op">=</span>  floor<span class="op">(</span>color<span class="op">.</span>b <span class="op">*</span> <span class="fl">15.0</span><span class="op">)</span> <span class="op">/</span> <span class="fl">15.0</span> <span class="op">*</span> <span class="fl">240.0</span><span class="op">;</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        u  <span class="op">=</span> <span class="op">(</span>floor<span class="op">(</span>color<span class="op">.</span>r <span class="op">*</span> <span class="fl">15.0</span><span class="op">)</span> <span class="op">/</span> <span class="fl">15.0</span> <span class="op">*</span>  <span class="fl">15.0</span><span class="op">)</span> <span class="op">+</span> u<span class="op">;</span></span>
@@ -179,7 +179,7 @@ red channel maps to one of the 16 horizontal pixel positions within the
 block and the green channel maps to one of the 16 vertical pixel
 positions within the block. These three mappings will determine the UV
 coordinate you'll need to sample a color from the LUT.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        u <span class="op">/=</span> <span class="fl">255.0</span><span class="op">;</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -194,14 +194,14 @@ ranges from zero to one. You'll also need to subtract the normalized V
 coordinate from one since V ranges from zero at the bottom to one at the
 top while the green channel ranges from zero at the top to 15 at the
 bottom.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  vec3 left <span class="op">=</span> texture<span class="op">(</span>lookupTableTexture<span class="op">,</span> vec2<span class="op">(</span>u<span class="op">,</span> v<span class="op">)).</span>rgb<span class="op">;</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
 <p>Using the UV coordinates, sample a color from the lookup table. This
 is the nearest left block color.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  u  <span class="op">=</span>  ceil<span class="op">(</span>color<span class="op">.</span>b <span class="op">*</span> <span class="fl">15.0</span><span class="op">)</span> <span class="op">/</span> <span class="fl">15.0</span> <span class="op">*</span> <span class="fl">240.0</span><span class="op">;</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  u  <span class="op">=</span> <span class="op">(</span>ceil<span class="op">(</span>color<span class="op">.</span>r <span class="op">*</span> <span class="fl">15.0</span><span class="op">)</span> <span class="op">/</span> <span class="fl">15.0</span> <span class="op">*</span>  <span class="fl">15.0</span><span class="op">)</span> <span class="op">+</span> u<span class="op">;</span></span>
@@ -219,7 +219,7 @@ instead of <code>floor</code>.</p>
 <img src="https://i.imgur.com/uciq7Um.png" alt="Mixing" title="Mixing">
 </p>
 
-<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  color<span class="op">.</span>r <span class="op">=</span> mix<span class="op">(</span>left<span class="op">.</span>r<span class="op">,</span> right<span class="op">.</span>r<span class="op">,</span> fract<span class="op">(</span>color<span class="op">.</span>r <span class="op">*</span> <span class="fl">15.0</span><span class="op">));</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  color<span class="op">.</span>g <span class="op">=</span> mix<span class="op">(</span>left<span class="op">.</span>g<span class="op">,</span> right<span class="op">.</span>g<span class="op">,</span> fract<span class="op">(</span>color<span class="op">.</span>g <span class="op">*</span> <span class="fl">15.0</span><span class="op">));</span></span>
@@ -239,7 +239,7 @@ directly between them making the final color a mixture of half left and
 half right. However, for <code>0.132</code> the mixture will be 98%
 right and 2% left since the fractional part of <code>0.123</code> times
 <code>15.0</code> is <code>0.98</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  fragColor <span class="op">=</span> color<span class="op">;</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>

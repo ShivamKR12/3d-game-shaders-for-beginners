@@ -144,7 +144,7 @@ back to <a href="ssao.html#vertex-positions">SSAO</a> for details.</p>
 This tends to look nicer than a constant color since it provides some
 color variation to the edges.</p>
 <h3 id="parameters">Parameters</h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> minSeparation <span class="op">=</span> <span class="fl">1.0</span><span class="op">;</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> maxSeparation <span class="op">=</span> <span class="fl">3.0</span><span class="op">;</span></span>
@@ -161,7 +161,7 @@ The <code>size</code> parameter controls the constant thickness of the
 line no matter the fragment's position. The outline color is based on
 <code>colorModifier</code> and the current fragment's color.</p>
 <h3 id="fragment-position">Fragment Position</h3>
-<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  vec2 texSize   <span class="op">=</span> textureSize<span class="op">(</span>colorTexture<span class="op">,</span> <span class="dv">0</span><span class="op">).</span>xy<span class="op">;</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  vec2 fragCoord <span class="op">=</span> gl_FragCoord<span class="op">.</span>xy<span class="op">;</span></span>
@@ -175,7 +175,7 @@ the scene. Recall that the position texture is just a screen shaped quad
 making the UV coordinate the current fragment's screen coordinate
 divided by the dimensions of the screen.</p>
 <h3 id="fragment-depth">Fragment Depth</h3>
-<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> depth <span class="op">=</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    clamp</span>
@@ -196,7 +196,7 @@ one. When the fragment's view-space y coordinate matches the near
 clipping plane, the depth is zero. In other words, the depth ranges from
 zero at the near clipping plane all the way up to one at the far
 clipping plane.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> separation <span class="op">=</span> mix<span class="op">(</span>maxSeparation<span class="op">,</span> minSeparation<span class="op">,</span> depth<span class="op">);</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -211,7 +211,7 @@ than a constant thickness since it gives depth to the outline.</p>
 <img src="https://i.imgur.com/xAMRGhn.gif" alt="Edge Finding" title="Edge Finding">
 </p>
 
-<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> mx <span class="op">=</span> <span class="dv">0</span><span class="er">.0</span><span class="op">;</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -247,7 +247,7 @@ fragment's and the surrounding fragments' positions.</p>
 <img src="https://i.imgur.com/idDZr62.png" alt="smoothstep" title="smoothstep">
 </p>
 
-<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> diff <span class="op">=</span> smoothstep<span class="op">(</span>minDistance<span class="op">,</span> maxDistance<span class="op">,</span> mx<span class="op">);</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -262,7 +262,7 @@ than the maximum distance will be one. For distances between the edges,
 the difference will be between zero and one. These values are
 interpolated along a s-shaped curve.</p>
 <h3 id="line-color">Line Color</h3>
-<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  vec3 lineColor <span class="op">=</span> texture<span class="op">(</span>colorTexture<span class="op">,</span> texCoord<span class="op">).</span>rgb <span class="op">*</span> colorModifier<span class="op">;</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -274,7 +274,7 @@ lightened.</p>
 <img src="https://i.imgur.com/yWNdPZe.gif" alt="Outlines" title="Outlines">
 </p>
 
-<div class="sourceCode" id="cb11"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb11"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  fragColor<span class="op">.</span>rgb <span class="op">=</span> vec4<span class="op">(</span>lineColor<span class="op">,</span> diff<span class="op">);</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -300,7 +300,7 @@ sample the position vectors.</p>
 <p>Start by creating a RGB noise texture. A good size is either 128 by
 128 or 512 by 512. Be sure to blur it and make it tileable. This will
 produce a nice wavy, inky outline.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb13"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> noiseScale <span class="op">=</span> <span class="fl">10.0</span><span class="op">;</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -308,7 +308,7 @@ produce a nice wavy, inky outline.</p>
 <p>The <code>noiseScale</code> parameter controls how distorted the
 outline is. The bigger the <code>noiseScale</code>, the sketchier the
 line.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb14"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  vec2 fragCoord <span class="op">=</span> gl_FragCoord<span class="op">.</span>xy<span class="op">;</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -323,7 +323,7 @@ coordinates used to sample the position vectors, you'll only need two of
 the three color channels. Map the two color channels from
 <code>[0, 1]</code> to <code>[-1, 1]</code>. Finally, scale the noise by
 the scale chosen earlier.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  vec2 texSize  <span class="op">=</span> textureSize<span class="op">(</span>colorTexture<span class="op">,</span> <span class="dv">0</span><span class="op">).</span>xy<span class="op">;</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  vec2 texCoord <span class="op">=</span> <span class="op">(</span>fragCoord <span class="op">-</span> noise<span class="op">)</span> <span class="op">/</span> texSize<span class="op">;</span></span>
@@ -340,7 +340,7 @@ the current fragment's coordinates.</p>
 <p>You could instead add it to the current fragment's coordinates which
 will create more of a squiggly line that loosely follows the
 geometry.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb16"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>      texCoord <span class="op">=</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>          <span class="op">(</span>vec2<span class="op">(</span>i<span class="op">,</span> j<span class="op">)</span> <span class="op">*</span> separation <span class="op">+</span> fragCoord <span class="op">+</span> noise<span class="op">)</span></span>

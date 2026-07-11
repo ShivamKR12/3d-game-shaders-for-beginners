@@ -140,7 +140,7 @@ the light's specular color, and by how much the camera pointed into the
 light's reflection direction. Incorporating the fresnel factor, you'll
 now vary the material specular color based on the angle between the
 camera and the surface it's pointed at.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  vec3 eye <span class="op">=</span> normalize<span class="op">(-</span>vertexPosition<span class="op">.</span>xyz<span class="op">);</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -149,7 +149,7 @@ camera and the surface it's pointed at.</p>
 that the eye vector points from the vertex position to the camera's
 position. If the vertex position is in view or camera space, the eye
 vector is the vertex position pointed in the opposite direction.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  vec3 light   <span class="op">=</span> normal<span class="op">(</span>lightPosition<span class="op">.</span>xyz <span class="op">-</span> vertexPosition<span class="op">.</span>xyz<span class="op">);</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  vec3 halfway <span class="op">=</span> normalize<span class="op">(</span>light <span class="op">+</span> eye<span class="op">);</span></span>
@@ -182,7 +182,7 @@ approximation</a>.</p>
 <p>In Schlick's approximation, the <code>fresnelPower</code> is five but
 you can alter this to your liking. The demo code varies it using the
 blue channel of the specular map with a maximum value of five.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  materialSpecularColor<span class="op">.</span>rgb <span class="op">=</span> mix<span class="op">(</span>materialSpecularColor<span class="op">.</span>rgb<span class="op">,</span> vec3<span class="op">(</span><span class="fl">1.0</span><span class="op">),</span> fresnelFactor<span class="op">);</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -190,7 +190,7 @@ blue channel of the specular map with a maximum value of five.</p>
 <p>Once the fresnel factor is determined, use it to modulate the
 material's specular color. As the fresnel factor approaches one, the
 material becomes more like a mirror or fully reflective.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  vec4 specular      <span class="op">=</span> vec4<span class="op">(</span>vec3<span class="op">(</span><span class="dv">0</span><span class="er">.0</span><span class="op">),</span> <span class="fl">1.0</span><span class="op">);</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>       specular<span class="op">.</span>rgb  <span class="op">=</span>   materialSpecularColor<span class="op">.</span>rgb</span>

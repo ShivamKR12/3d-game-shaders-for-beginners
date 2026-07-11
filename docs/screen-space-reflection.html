@@ -229,7 +229,7 @@ like.</p>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">//...</span></span></code></pre></div>
 <p>You'll need the camera lens' projection matrix as well as the
 interpolated vertex positions and normals in view space.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> maxDistance <span class="op">=</span> <span class="dv">15</span><span class="op">;</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> resolution  <span class="op">=</span> <span class="dv">0</span><span class="er">.3</span><span class="op">;</span></span>
@@ -279,7 +279,7 @@ to smear in places.</p>
 
 <p>Going in the other direction, as the thickness gets smaller, the
 reflections become noisy with tiny little holes and narrow gaps.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  vec2 texSize  <span class="op">=</span> textureSize<span class="op">(</span>positionTexture<span class="op">,</span> <span class="dv">0</span><span class="op">).</span>xy<span class="op">;</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  vec2 texCoord <span class="op">=</span> gl_FragCoord<span class="op">.</span>xy <span class="op">/</span> texSize<span class="op">;</span></span>
@@ -297,7 +297,7 @@ vector pointing in the direction of the interpolated vertex normal for
 the current fragment. <code>pivot</code> is the reflection ray or vector
 pointing in the reflected direction of the <code>positionFrom</code>
 vector. It currently has a length or magnitude of one.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  vec4 startView <span class="op">=</span> vec4<span class="op">(</span>positionFrom<span class="op">.</span>xyz <span class="op">+</span> <span class="op">(</span>pivot <span class="op">*</span>           <span class="dv">0</span><span class="op">),</span> <span class="dv">1</span><span class="op">);</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  vec4 endView   <span class="op">=</span> vec4<span class="op">(</span>positionFrom<span class="op">.</span>xyz <span class="op">+</span> <span class="op">(</span>pivot <span class="op">*</span> maxDistance<span class="op">),</span> <span class="dv">1</span><span class="op">);</span></span>
@@ -305,7 +305,7 @@ vector. It currently has a length or magnitude of one.</p>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
 <p>Calculate the start and end point of the reflection ray in view
 space.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  vec4 startFrag      <span class="op">=</span> startView<span class="op">;</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>       <span class="co">// Project to screen space.</span></span>
@@ -346,7 +346,7 @@ it is inefficient to potentially sample the same pixels over and over
 again while marching in view space. By marching in screen space, you'll
 more efficiently sample the fragments or pixels the ray actually
 occupies or covers.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  vec2 frag  <span class="op">=</span> startFrag<span class="op">.</span>xy<span class="op">;</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>       uv<span class="op">.</span>xy <span class="op">=</span> frag <span class="op">/</span> texSize<span class="op">;</span></span>
@@ -356,7 +356,7 @@ occupies or covers.</p>
 reflection ray. Convert the fragment position to a UV coordinate by
 dividing the fragment's coordinates by the position texture's
 dimensions.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> deltaX    <span class="op">=</span> endFrag<span class="op">.</span>x <span class="op">-</span> startFrag<span class="op">.</span>x<span class="op">;</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> deltaY    <span class="op">=</span> endFrag<span class="op">.</span>y <span class="op">-</span> startFrag<span class="op">.</span>y<span class="op">;</span></span>
@@ -369,7 +369,7 @@ occupies in the X and Y dimension of the screen.</p>
 <img src="https://i.imgur.com/Um4dzgL.png" alt="The reflection ray in screen space." title="The reflection ray in screen space.">
 </p>
 
-<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> useX      <span class="op">=</span> abs<span class="op">(</span>deltaX<span class="op">)</span> <span class="op">&gt;=</span> abs<span class="op">(</span>deltaY<span class="op">)</span> <span class="op">?</span> <span class="dv">1</span> <span class="op">:</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> delta     <span class="op">=</span> mix<span class="op">(</span>abs<span class="op">(</span>deltaY<span class="op">),</span> abs<span class="op">(</span>deltaX<span class="op">),</span> useX<span class="op">)</span> <span class="op">*</span> clamp<span class="op">(</span>resolution<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">);</span></span>
@@ -386,7 +386,7 @@ Y dimension depending on which delta is bigger. <code>delta</code> is
 the larger delta of the two X and Y deltas. It is used to determine how
 much to march in either dimension each iteration and how many iterations
 to take during the first pass.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  vec2  increment <span class="op">=</span> vec2<span class="op">(</span>deltaX<span class="op">,</span> deltaY<span class="op">)</span> <span class="op">/</span> max<span class="op">(</span>delta<span class="op">,</span> <span class="dv">0</span><span class="er">.001</span><span class="op">);</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -413,7 +413,7 @@ fragments.</p>
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>           <span class="op">=</span> <span class="op">(</span> <span class="dv">9</span> <span class="op">/</span> <span class="dv">5</span><span class="op">,</span>      <span class="dv">2</span><span class="op">)</span></span></code></pre></div>
 <p>For example, say the <code>resolution</code> is 0.5. The larger
 dimension will increment by two fragments instead of one.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb11"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> search0 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> search1 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
@@ -432,7 +432,7 @@ between the start and end fragment.</p>
 line where the ray missed or didn't intersect with any geometry. The
 algorithm will later use <code>search0</code> in the second pass to help
 refine the point at which the ray touches the scene's geometry.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb13"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> hit0 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> hit1 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
@@ -441,7 +441,7 @@ refine the point at which the ray touches the scene's geometry.</p>
 <p><code>hit0</code> indicates there was an intersection during the
 first pass. <code>hit1</code> indicates there was an intersection during
 the second pass.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb14"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> viewDistance <span class="op">=</span> startView<span class="op">.</span>y<span class="op">;</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> depth        <span class="op">=</span> thickness<span class="op">;</span></span>
@@ -464,7 +464,7 @@ current ray point and scene position. It tells you how far behind or in
 front of the scene the ray currently is. Remember that the scene
 positions are the interpolated vertex positions stored in the position
 framebuffer texture.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> <span class="op">(</span>i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dt">int</span><span class="op">(</span>delta<span class="op">);</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -551,7 +551,7 @@ is not between zero and the thickness, this is a miss. Set
 <code>search0</code> to equal <code>search1</code> to remember this
 position as the last known miss. Continue marching the ray towards the
 end fragment.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb22"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  search1 <span class="op">=</span> search0 <span class="op">+</span> <span class="op">((</span>search1 <span class="op">-</span> search0<span class="op">)</span> <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -559,7 +559,7 @@ end fragment.</p>
 <p>At this point you have finished the first pass. Set the
 <code>search1</code> position to be halfway between the position of the
 last miss and the position of the last hit.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb23"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  steps <span class="op">*=</span> hit0<span class="op">;</span></span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -606,7 +606,7 @@ this current miss position and the last known hit position. Move
 <code>search0</code> to this current miss position. Continue this back
 and forth search while <code>i</code> is less than
 <code>steps</code>.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb27"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> visibility <span class="op">=</span></span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>      hit1</span>
@@ -617,7 +617,7 @@ output the reflected UV coordinates, you'll need to calculate the
 <code>visibility</code> of the reflection. The <code>visibility</code>
 ranges from zero to one. If there wasn't a hit in the second pass, the
 <code>visibility</code> is zero.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb28"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span> positionTo<span class="op">.</span>w</span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -629,7 +629,7 @@ is zero, the <code>visibility</code> is zero. Note that if
 <img src="https://i.imgur.com/7e2cOdZ.gif" alt="Reflection ray pointing towards the camera position." title="Reflection ray pointing towards the camera position.">
 </p>
 
-<div class="sourceCode" id="cb29"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb29"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span> <span class="op">(</span> <span class="dv">1</span></span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span> max</span>
@@ -652,7 +652,7 @@ other direction results in the visibility being greater than zero.</p>
 <p>Remember to normalize both vectors when taking the dot product.
 <code>unitPositionFrom</code> is the normalized position vector. It has
 a length or magnitude of one.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb30"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span> <span class="op">(</span> <span class="dv">1</span></span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span> clamp</span>
@@ -668,7 +668,7 @@ to find the exact point where the reflection ray first intersects with
 the scene's geometry. Unfortunately, you may not find this particular
 point. Fade out the reflection the further it is from the intersection
 point you did find.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb31"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span> <span class="op">(</span> <span class="dv">1</span></span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span> clamp</span>
@@ -688,7 +688,7 @@ instead of it ending abruptly as it reaches
 <img src="https://i.imgur.com/i0btBna.gif" alt="Reflection ray exiting the frustum." title="Reflection ray exiting the frustum.">
 </p>
 
-<div class="sourceCode" id="cb32"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb32"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span> <span class="op">(</span>uv<span class="op">.</span>x <span class="op">&lt;</span> <span class="dv">0</span> <span class="op">||</span> uv<span class="op">.</span>x <span class="op">&gt;</span> <span class="dv">1</span> <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> <span class="dv">1</span><span class="op">)</span></span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span> <span class="op">(</span>uv<span class="op">.</span>y <span class="op">&lt;</span> <span class="dv">0</span> <span class="op">||</span> uv<span class="op">.</span>y <span class="op">&gt;</span> <span class="dv">1</span> <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> <span class="dv">1</span><span class="op">);</span></span>
@@ -702,7 +702,7 @@ travels outside the camera's frustum.</p>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  uv<span class="op">.</span>ba <span class="op">=</span> vec2<span class="op">(</span>visibility<span class="op">);</span></span></code></pre></div>
 <p>Set the blue and alpha component to the visibility as the UV
 coordinates only need the RG or XY components of the final vector.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb34"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  fragColor <span class="op">=</span> uv<span class="op">;</span></span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -774,7 +774,7 @@ without any reflections.</p>
 <p>Once you have the reflected UV coordinates, looking up the reflected
 colors is fairly easy. You'll need the reflected UV coordinates texture
 and the color texture containing the colors you wish to reflect.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb37"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  vec2 texSize  <span class="op">=</span> textureSize<span class="op">(</span>uvTexture<span class="op">,</span> <span class="dv">0</span><span class="op">).</span>xy<span class="op">;</span></span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  vec2 texCoord <span class="op">=</span> gl_FragCoord<span class="op">.</span>xy <span class="op">/</span> texSize<span class="op">;</span></span>
@@ -785,7 +785,7 @@ and the color texture containing the colors you wish to reflect.</p>
 <span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
 <p>Using the UV coordinates for the current fragment, look up the
 reflected color.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb38"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> alpha <span class="op">=</span> clamp<span class="op">(</span>uv<span class="op">.</span>b<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">);</span></span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -793,7 +793,7 @@ reflected color.</p>
 <p>Recall that the reflected UV texture stored the visibility in the B
 or blue component. This is the alpha channel for the reflected colors
 framebuffer texture.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb39"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  fragColor <span class="op">=</span> vec4<span class="op">(</span>mix<span class="op">(</span>vec3<span class="op">(</span><span class="dv">0</span><span class="op">),</span> color<span class="op">.</span>rgb<span class="op">,</span> alpha<span class="op">),</span> alpha<span class="op">);</span></span>
 <span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -825,7 +825,7 @@ more during the roughness calculation.</p>
 <p>To generate the final reflections, you'll need the three framebuffer
 textures computed earlier. You'll need the reflected colors, the blurred
 reflected colors, and the specular map.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb41"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  vec4 specular  <span class="op">=</span> texture<span class="op">(</span>specularTexture<span class="op">,</span>  texCoord<span class="op">);</span></span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  vec4 color     <span class="op">=</span> texture<span class="op">(</span>colorTexture<span class="op">,</span>     texCoord<span class="op">);</span></span>
@@ -834,7 +834,7 @@ reflected colors, and the specular map.</p>
 <span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
 <p>Look up the specular amount and shininess, the reflected scene color,
 and the blurred reflected scene color.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb42"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> specularAmount <span class="op">=</span> dot<span class="op">(</span>specular<span class="op">.</span>rgb<span class="op">,</span> vec3<span class="op">(</span><span class="dv">1</span><span class="op">))</span> <span class="op">/</span> <span class="dv">3</span><span class="op">;</span></span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -850,7 +850,7 @@ darkening the greyscale value in the specular map.</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>  dot<span class="op">(</span>specular<span class="op">.</span>rgb<span class="op">,</span> vec3<span class="op">(</span><span class="dv">1</span><span class="op">))</span> <span class="op">==</span> <span class="op">(</span>specular<span class="op">.</span>r <span class="op">+</span> specular<span class="op">.</span>g <span class="op">+</span> specular<span class="op">.</span>b<span class="op">);</span></span></code></pre></div>
 <p>Using the dot product to produce the greyscale value is just a short
 way of summing the three color components.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb44"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> roughness <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> min<span class="op">(</span>specular<span class="op">.</span>a<span class="op">,</span> <span class="dv">1</span><span class="op">);</span></span>
 <span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -873,7 +873,7 @@ could be painted a more opaque white. The more translucent/transparent
 the greyscale value, the more the shader will use the blurred reflected
 color. The scratched tiles will have a blurry reflection while the
 polished tiles will have a mirror like reflection.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb45"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  fragColor <span class="op">=</span> mix<span class="op">(</span>color<span class="op">,</span> colorBlur<span class="op">,</span> roughness<span class="op">)</span> <span class="op">*</span> specularAmount<span class="op">;</span></span>
 <span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a></span>

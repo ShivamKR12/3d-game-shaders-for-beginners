@@ -112,7 +112,7 @@ Beginners</h1>
 
 <p>The sharpen effect increases the contrast at the edges of the image.
 This comes in handy when your graphics are bit too soft.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> amount <span class="op">=</span> <span class="dv">0</span><span class="er">.8</span><span class="op">;</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -120,7 +120,7 @@ This comes in handy when your graphics are bit too soft.</p>
 <p>You can control how sharp the result is by adjusting the amount. An
 amount of zero leaves the image untouched. Try negative values for an
 odd look.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> neighbor <span class="op">=</span> amount <span class="op">*</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> center   <span class="op">=</span> amount <span class="op">*</span> <span class="dv">4</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
@@ -128,7 +128,7 @@ odd look.</p>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
 <p>Neighboring fragments are multiplied by <code>amount * -1</code>. The
 current fragment is multiplied by <code>amount * 4 + 1</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  vec3 color <span class="op">=</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        texture<span class="op">(</span>sharpenTexture<span class="op">,</span> vec2<span class="op">(</span>gl_FragCoord<span class="op">.</span>x <span class="op">+</span> <span class="dv">0</span><span class="op">,</span> gl_FragCoord<span class="op">.</span>y <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">/</span> texSize<span class="op">).</span>rgb</span>

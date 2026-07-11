@@ -123,7 +123,7 @@ and upper level value. The closest level to the original greyscale value
 is then mapped back to an RGB value This new RGB value becomes the
 fragment color. I find this method produces nicer results than the more
 typical methods you'll find.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> levels <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -133,20 +133,20 @@ steps there are. This will break up the continuous values from zero to
 one into chunks. With four levels, <code>0.0</code> to <code>1.0</code>
 becomes <code>0.0</code>, <code>0.25</code>, <code>0.5</code>,
 <code>0.75</code>, and <code>1.0</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  fragColor <span class="op">=</span> texture<span class="op">(</span>posterizeTexture<span class="op">,</span> texCoord<span class="op">);</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
 <p>Sample the current fragment's color.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> greyscale <span class="op">=</span> max<span class="op">(</span>fragColor<span class="op">.</span>r<span class="op">,</span> max<span class="op">(</span>fragColor<span class="op">.</span>g<span class="op">,</span> fragColor<span class="op">.</span>b<span class="op">));</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
 <p>Map the RGB values to a greyscale value. In this instance, the
 greyscale value is the maximum value of the R, G, and B values.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> lower     <span class="op">=</span> floor<span class="op">(</span>greyscale <span class="op">*</span> levels<span class="op">)</span> <span class="op">/</span> levels<span class="op">;</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> lowerDiff <span class="op">=</span> abs<span class="op">(</span>greyscale <span class="op">-</span> lower<span class="op">);</span></span>
@@ -157,7 +157,7 @@ difference between its lower level and itself. For example, if the
 greyscale value is <code>0.87</code> and there are four levels, its
 lower level is <code>0.75</code> and the difference is
 <code>0.12</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> upper     <span class="op">=</span> ceil<span class="op">(</span>greyscale <span class="op">*</span> levels<span class="op">)</span> <span class="op">/</span> levels<span class="op">;</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> upperDiff <span class="op">=</span> abs<span class="op">(</span>upper <span class="op">-</span> greyscale<span class="op">);</span></span>
@@ -166,7 +166,7 @@ lower level is <code>0.75</code> and the difference is
 <p>Now calculate the upper level and the difference. Keeping with the
 example up above, the upper level is <code>1.0</code> and the difference
 is <code>0.13</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> level      <span class="op">=</span> lowerDiff <span class="op">&lt;=</span> upperDiff <span class="op">?</span> lower <span class="op">:</span> upper<span class="op">;</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> adjustment <span class="op">=</span> level <span class="op">/</span> greyscale<span class="op">;</span></span>
@@ -176,7 +176,7 @@ is <code>0.13</code>.</p>
 is the ratio between the quantized and unquantized greyscale value. This
 adjustment is used to map the quantized greyscale value back to an RGB
 value.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  fragColor<span class="op">.</span>rgb <span class="op">*</span> adjustment<span class="op">;</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
