@@ -117,7 +117,7 @@ When combined with <a href="cel-shading.html">cel shading</a> and <a
 href="outlining.html">outlining</a>, it can really complete that cartoon
 look. You can also use it to highlight objects in the game, making it
 easier for players to navigate and accomplish tasks.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  vec3 eye <span class="op">=</span> normalize<span class="op">(-</span>vertexPosition<span class="op">.</span>xyz<span class="op">);</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -129,7 +129,7 @@ the vertex position.</p>
 <img src="https://i.imgur.com/mMsQFbE.gif" alt="Rim Light" title="Rim Light">
 </p>
 
-<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> rimLightIntensity <span class="op">=</span> dot<span class="op">(</span>eye<span class="op">,</span> normal<span class="op">);</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        rimLightIntensity <span class="op">=</span> <span class="fl">1.0</span> <span class="op">-</span> rimLightIntensity<span class="op">;</span></span>
@@ -145,14 +145,14 @@ eye and normal become orthogonal or perpendicular to one another.</p>
 <img src="https://i.imgur.com/AAFI8p1.gif" alt="Rim Light Power" title="Rim Light Power">
 </p>
 
-<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  rimLightIntensity <span class="op">=</span> pow<span class="op">(</span>rimLightIntensity<span class="op">,</span> rimLightPower<span class="op">);</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span></code></pre></div>
 <p>You can control the falloff of the rim light using the power
 function.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  rimLightIntensity <span class="op">=</span> smoothstep<span class="op">(</span><span class="dv">0</span><span class="er">.3</span><span class="op">,</span> <span class="dv">0</span><span class="er">.4</span><span class="op">,</span> rimLightIntensity<span class="op">)</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -161,7 +161,7 @@ function.</p>
 control the falloff. This tends to look better when using <a
 href="cel-shading.html">cel shading</a>. You'll learn more about these
 functions in later sections.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  vec4 rimLight   <span class="op">=</span> rimLightIntensity <span class="op">*</span> diffuse<span class="op">;</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>       rimLight<span class="op">.</span>a <span class="op">=</span> diffuse<span class="op">.</span>a<span class="op">;</span></span>
@@ -171,7 +171,7 @@ functions in later sections.</p>
 multiplies the diffuse light by the <code>rimLightIntensity</code>. This
 will highlight the silhouette without overexposing it and without
 lighting any shadowed fragments.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  vec4 outputColor     <span class="op">=</span> vec4<span class="op">(</span><span class="dv">0</span><span class="er">.0</span><span class="op">);</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>       outputColor<span class="op">.</span>a   <span class="op">=</span> diffuseColor<span class="op">.</span>a<span class="op">;</span></span>

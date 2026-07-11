@@ -154,7 +154,7 @@ takes a foam pattern texture and UV maps it to the scene's geometry
 using the diffuse UV coordinates. For every model, except the water, the
 shader is given a solid black texture as the
 <code>foamPatternTexture</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  fragColor <span class="op">=</span> vec4<span class="op">(</span>vec3<span class="op">(</span>dot<span class="op">(</span>foamPattern<span class="op">.</span>rgb<span class="op">,</span> vec3<span class="op">(</span><span class="dv">1</span><span class="op">))</span> <span class="op">/</span> <span class="dv">3</span><span class="op">),</span> <span class="dv">1</span><span class="op">);</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -173,7 +173,7 @@ the foam shader expects the foam mask to be greyscale.</p>
 positions (<code>positionFromTexture</code>), and the background vertex
 positions (<code>positionToTexture</code>).</p>
 <h3 id="parameters">Parameters</h3>
-<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> foamDepth <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  vec4  foamColor <span class="op">=</span> vec4<span class="op">(</span><span class="dv">0</span><span class="er">.8</span><span class="op">,</span> <span class="dv">0</span><span class="er">.85</span><span class="op">,</span> <span class="dv">0</span><span class="er">.92</span><span class="op">,</span> <span class="dv">1</span><span class="op">);</span></span>
@@ -183,7 +183,7 @@ positions (<code>positionToTexture</code>).</p>
 color. The foam depth controls how much foam is shown. As the foam depth
 increases, the amount of foam shown increases.</p>
 <h3 id="distance">Distance</h3>
-<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  vec4 positionFrom <span class="op">=</span> texture<span class="op">(</span>positionFromTexture<span class="op">,</span> texCoord<span class="op">);</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  vec4 positionTo   <span class="op">=</span> texture<span class="op">(</span>positionToTexture<span class="op">,</span>   texCoord<span class="op">);</span></span>
@@ -195,7 +195,7 @@ increases, the amount of foam shown increases.</p>
 position. Since the positions are in view (camera) space, we only need
 the y value since it goes into the screen.</p>
 <h3 id="amount">Amount</h3>
-<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> amount  <span class="op">=</span> clamp<span class="op">(</span>depth <span class="op">/</span> foamDepth<span class="op">.</span>x<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">);</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        amount  <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> amount<span class="op">;</span></span>
@@ -218,7 +218,7 @@ and the mask value.</p>
 will give a lot of foam near depth zero and little to no foam near
 <code>foamDepth</code>.</p>
 <h3 id="fragment-color">Fragment Color</h3>
-<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  fragColor <span class="op">=</span> mix<span class="op">(</span>vec4<span class="op">(</span><span class="dv">0</span><span class="op">),</span> foamColor<span class="op">,</span> amount<span class="op">);</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>

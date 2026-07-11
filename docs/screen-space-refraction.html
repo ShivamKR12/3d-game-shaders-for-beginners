@@ -245,7 +245,7 @@ fragment is left blank, the refractive surface will contain holes that
 let the detail behind it come through. This would be okay for a
 completely transparent surface but usually the refractive surface will
 have some tint to it, reflection, etc.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  vec2 texSize  <span class="op">=</span> textureSize<span class="op">(</span>positionFromTexture<span class="op">,</span> <span class="dv">0</span><span class="op">).</span>xy<span class="op">;</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  vec2 texCoord <span class="op">=</span> gl_FragCoord<span class="op">.</span>xy <span class="op">/</span> texSize<span class="op">;</span></span>
@@ -265,7 +265,7 @@ refractive surface.</p>
 and waterway disturb what is otherwise a smooth gradient. The
 disruptions shift the UV coordinates from their screen position to their
 refracted screen position.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  vec3 unitPositionFrom <span class="op">=</span> normalize<span class="op">(</span>positionFrom<span class="op">.</span>xyz<span class="op">);</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  vec3 normalFrom       <span class="op">=</span> normalize<span class="op">(</span>texture<span class="op">(</span>normalFromTexture<span class="op">,</span> texCoord<span class="op">).</span>xyz<span class="op">);</span></span>
@@ -333,7 +333,7 @@ rendering the scene to a framebuffer texture.</p>
 <p>To render the actual refractions or foreground colors, you'll need
 the refracted UV coordinates, refraction mask, the foreground and
 background vertex positions, and the background colors.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  vec3  tintColor <span class="op">=</span> vec3<span class="op">(</span><span class="dv">0</span><span class="er">.27</span><span class="op">,</span> <span class="dv">0</span><span class="er">.58</span><span class="op">,</span> <span class="dv">0</span><span class="er">.92</span><span class="op">,</span> <span class="dv">0</span><span class="er">.3</span><span class="op">);</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> depthMax  <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
@@ -346,7 +346,7 @@ between the foreground and background position reaches
 <code>depthMax</code>, the foreground color will be the fully tinted
 background color. At distance zero, the foreground will be the
 background color.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  vec2 texSize  <span class="op">=</span> textureSize<span class="op">(</span>backgroundColorTexture<span class="op">,</span> <span class="dv">0</span><span class="op">).</span>xy<span class="op">;</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  vec2 texCoord <span class="op">=</span> gl_FragCoord<span class="op">.</span>xy <span class="op">/</span> texSize<span class="op">;</span></span>
@@ -364,7 +364,7 @@ background color.</p>
 position, and the background color.</p>
 <p>If the refraction mask is turned off for this fragment, return
 nothing.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> depth   <span class="op">=</span> length<span class="op">(</span>positionTo<span class="op">.</span>xyz <span class="op">-</span> positionFrom<span class="op">.</span>xyz<span class="op">);</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> mixture <span class="op">=</span> clamp<span class="op">(</span>depth <span class="op">/</span> depthMax<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">);</span></span>
@@ -383,7 +383,7 @@ the background position. At zero depth, the foreground color will be the
 shallow color. At <code>depthMax</code>, the foreground color will be
 the deep color. The deep color is the background color tinted with
 <code>tintColor</code>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  fragColor <span class="op">=</span> mix<span class="op">(</span>vec4<span class="op">(</span><span class="dv">0</span><span class="op">),</span> vec4<span class="op">(</span>foregroundColor<span class="op">,</span> <span class="dv">1</span><span class="op">),</span> uv<span class="op">.</span>b<span class="op">);</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>

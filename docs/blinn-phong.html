@@ -117,7 +117,7 @@ or realistic specular reflections. You'll notice that Blinn-Phong
 produces elliptical or elongated specular reflections versus the
 spherical specular reflections produced by the Phong model. In certain
 cases, Blinn-Phong can be more efficient to calculate than Phong.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  vec3 light   <span class="op">=</span> normal<span class="op">(</span>lightPosition<span class="op">.</span>xyz <span class="op">-</span> vertexPosition<span class="op">.</span>xyz<span class="op">);</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  vec3 eye     <span class="op">=</span> normalize<span class="op">(-</span>vertexPosition<span class="op">.</span>xyz<span class="op">);</span></span>
@@ -131,7 +131,7 @@ direction vector.</p>
 <img src="https://i.imgur.com/vtqd1Ox.gif" alt="Blinn-Phong vs Phong" title="Blinn-Phong vs Phong">
 </p>
 
-<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// GLSL</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ...</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">float</span> specularIntensity <span class="op">=</span> dot<span class="op">(</span>normal<span class="op">,</span> halfway<span class="op">);</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
