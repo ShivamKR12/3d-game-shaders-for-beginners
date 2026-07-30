@@ -73,6 +73,6 @@ No other portion of 3D Game Shaders For Beginners has been licensed for use.
 
 ## Copyrights
 
-(C) 2019 David Lettier (lettier.com)
+(C) 2019 [David Lettier](lettier.com)
 <br>
-(C) 2026 Shivam Kumar (github.com/ShivamKR12)
+(C) 2026 [Shivam Kumar](github.com/ShivamKR12)
