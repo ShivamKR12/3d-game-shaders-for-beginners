@@ -4,6 +4,18 @@
 
 # 3D Game Shaders For Beginners
 
+<div align="center">
+
+![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
+![Panda3D](https://img.shields.io/badge/Engine-Panda3D-15427b?logo=python&logoColor=white)
+![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)
+![GitHub Actions](https://img.shields.io/badge/CI-GitHub%20Actions-2088FF?logo=github-actions&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+
+</div>
+
+
+
 > **Note:** This is an updated version of the original [3D Game Shaders For Beginners](https://github.com/lettier/3d-game-shaders-for-beginners) by David Lettier. This version includes a complete Python port of the demonstration application, in addition to the original C++ version. Maintained by [Shivam Kumar](https://github.com/ShivamKR12).
 
 Interested in adding
